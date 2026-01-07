@@ -105,7 +105,7 @@ export default function PMPortfolio() {
   ];
 
   const achievements = [
-    { metric: '70+', label: 'Experiments', detail: 'A/B tests on onboarding & engagement' },
+    { metric: '100+', label: 'Experiments', detail: 'A/B tests on onboarding & engagement' },
     { metric: '$27M+', label: 'Revenue Impact', detail: 'JustAnswer + Parallels combined' },
     { metric: '45%', label: 'Conversion Lift', detail: 'Subscription rate optimization' },
     { metric: '20%', label: 'Trial-to-Paid', detail: 'Lifecycle strategy improvement' }
@@ -177,10 +177,13 @@ export default function PMPortfolio() {
           <div className="mb-16">
             <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
-             Over the past decade, I've built products across SaaS and e-commerce that people actually want to use—and that drive real business results. <br><br></br>My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.
+              Over the past decade, I've built products across SaaS and e-commerce that people actually want to use—and that drive real business results.
+            </p>
+            <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
+              My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.
             </p>
             <div className="text-sm text-gray-500 font-light">
-              Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
+              Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
             </div>
           </div>
 
