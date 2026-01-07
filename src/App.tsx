@@ -94,13 +94,15 @@ export default function PMPortfolio() {
       title: 'AI-Driven Customer Interaction Optimization',
       description: 'Led AI-powered features at JustAnswer optimizing customer interactions through 70+ experiments.',
       metrics: '$15M Net LTV increase',
-      company: 'JustAnswer'
+      company: 'JustAnswer',
+      logo: '/images/ja-logo.png'
     },
     {
       title: 'Global Subscription Funnel Optimization',
       description: 'Owned end-to-end funnel optimization at Parallels with data-driven testing framework.',
       metrics: '45% conversion increase, $12M+ QRR',
-      company: 'Parallels'
+      company: 'Parallels',
+      logo: '/images/parallels-logo.png'
     }
   ];
 
@@ -115,7 +117,7 @@ export default function PMPortfolio() {
     <div className="min-h-screen bg-white text-black">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-white z-50">
-        <div className="max-w-5xl mx-auto px-0 py-0 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="text-lg font-medium">Bennett Dilly</div>
           
           {/* Desktop Menu */}
@@ -159,14 +161,25 @@ export default function PMPortfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6">
+      <section className="pt-40 pb-8 px-6">
         <div className="max-w-5xl mx-auto px-0">
-          <h1 className="text-5xl md:text-6xl font-light mb-6 leading-tight">
-            Hi, I'm Bennett.
-          </h1>
-          <p className="text-2xl text-gray-700 font-light max-w-2xl">
-            I make products less broken and more profitable.
-          </p>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-5xl md:text-6xl font-light mb-6 leading-tight">
+                Hi, I'm Bennett.
+              </h1>
+              <p className="text-2xl text-gray-700 font-light max-w-2xl">
+                I make products less broken and more profitable.
+              </p>
+            </div>
+            <div>
+              <img 
+                src="/images/bd-web-hero.png" 
+                alt="Bennett at work" 
+                className="w-full max-w-md h-auto object-contain"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -206,7 +219,11 @@ export default function PMPortfolio() {
           <div className="grid md:grid-cols-2 gap-12">
             {caseStudies.map((study, index) => (
               <div key={index}>
-                <div className="text-xs text-gray-500 mb-3">{study.company}</div>
+                <img 
+                  src={study.logo} 
+                  alt={`${study.company} logo`}
+                  className="h-6 mb-3 object-contain object-left"
+                />
                 <h3 className="text-xl font-light mb-3">{study.title}</h3>
                 <p className="text-sm text-gray-600 font-light leading-relaxed mb-3">
                   {study.description}
