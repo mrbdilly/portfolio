@@ -160,7 +160,7 @@ export default function PMPortfolio() {
 
       {/* Hero Section */}
       <section className="pt-40 pb-20 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-0">
           <h1 className="text-5xl md:text-6xl font-light mb-6 leading-tight">
             Hi, I'm Bennett.
           </h1>
@@ -172,7 +172,7 @@ export default function PMPortfolio() {
 
       {/* About + Achievements Section */}
       <section id="about" className="py-20 px-6 border-t border-gray-200">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-0">
           {/* About */}
           <div className="mb-16">
             <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
@@ -183,7 +183,7 @@ export default function PMPortfolio() {
               My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.
             </p>
             <div className="text-sm text-gray-500 font-light">
-              Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
+              Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
             </div>
           </div>
 
@@ -201,7 +201,7 @@ export default function PMPortfolio() {
 
       {/* Case Studies Section */}
       <section id="work" className="py-20 px-6 border-t border-gray-200">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-0">
           <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Work</h2>
           <div className="grid md:grid-cols-2 gap-12">
             {caseStudies.map((study, index) => (
@@ -220,7 +220,7 @@ export default function PMPortfolio() {
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6 border-t border-gray-200">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-0">
           <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Contact</h2>
           <div className="space-y-3">
             <a 
@@ -238,7 +238,7 @@ export default function PMPortfolio() {
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-200">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-0">
           <p className="text-sm text-gray-400 font-light">
             © 2026 Bennett Dilly
           </p>
