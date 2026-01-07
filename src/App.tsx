@@ -177,7 +177,7 @@ export default function PMPortfolio() {
           <div className="mb-16">
             <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
-              I'm a product manager with 10+ years driving growth across SaaS and e-commerce. I led 70+ experiments at JustAnswer (contributing to $15M in Net LTV) and owned funnel optimization at Parallels (boosting conversion 45% and generating $12M+ in quarterly recurring revenue).
+             Over the past decade, I've worked across SaaS and e-commerce, building products that people actually want to use—and that companies want to pay for. My secret? Test everything, listen to users, and never trust a gut feeling without backing it up with numbers.
             </p>
             <div className="text-sm text-gray-500 font-light">
               Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
