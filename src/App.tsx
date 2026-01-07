@@ -177,7 +177,7 @@ export default function PMPortfolio() {
           <div className="mb-16">
             <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
-             Over the past decade, I've worked across SaaS and e-commerce, building products that people actually want to use—and that companies want to pay for. My secret? Test everything, listen to users, and never trust a gut feeling without backing it up with numbers.
+             Over the past decade, I've worked across SaaS and e-commerce, building products that people actually want to use –– and that users want to pay for. My secret? Test everything, listen to users, and never trust a gut feeling without backing it up with numbers.
             </p>
             <div className="text-sm text-gray-500 font-light">
               Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
