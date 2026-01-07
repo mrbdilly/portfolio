@@ -15,6 +15,81 @@ export default function PMPortfolio() {
     setMobileMenuOpen(false);
   };
 
+  // Count-up animation component
+  const CountUpMetric = ({ item, delay }) => {
+    const [count, setCount] = useState(0);
+    const [hasAnimated, setHasAnimated] = useState(false);
+    const elementRef = React.useRef(null);
+
+    React.useEffect(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            
+            // Parse the metric value
+            const metricStr = item.metric;
+            let targetValue = 0;
+            let suffix = '';
+            
+            if (metricStr.includes('M')) {
+              targetValue = parseFloat(metricStr.replace(/[^0-9.]/g, ''));
+              suffix = 'M+';
+            } else if (metricStr.includes('%')) {
+              targetValue = parseInt(metricStr);
+              suffix = '%';
+            } else {
+              targetValue = parseInt(metricStr.replace('+', ''));
+              suffix = '+';
+            }
+
+            const duration = 2000;
+            const steps = 60;
+            const increment = targetValue / steps;
+            let current = 0;
+
+            setTimeout(() => {
+              const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                  setCount(targetValue);
+                  clearInterval(timer);
+                } else {
+                  setCount(current);
+                }
+              }, duration / steps);
+            }, delay);
+          }
+        },
+        { threshold: 0.3 }
+      );
+
+      if (elementRef.current) {
+        observer.observe(elementRef.current);
+      }
+
+      return () => observer.disconnect();
+    }, [hasAnimated, item.metric, delay]);
+
+    const formatCount = (val) => {
+      if (item.metric.includes('M')) {
+        return `${val.toFixed(0)}M+`;
+      } else if (item.metric.includes('%')) {
+        return `${Math.round(val)}%`;
+      } else {
+        return `${Math.round(val)}+`;
+      }
+    };
+
+    return (
+      <div ref={elementRef}>
+        <div className="text-3xl font-light mb-1">{formatCount(count)}</div>
+        <div className="text-sm font-medium mb-1">{item.label}</div>
+        <div className="text-xs text-gray-500 font-light">{item.detail}</div>
+      </div>
+    );
+  };
+
   const caseStudies = [
     {
       title: 'AI-Driven Customer Interaction Optimization',
@@ -99,30 +174,24 @@ export default function PMPortfolio() {
       {/* About + Achievements Section */}
       <section id="about" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16">
-            {/* About */}
-            <div>
-              <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
-              <p className="text-lg text-gray-700 font-light leading-relaxed mb-6">
-                I'm a product manager with 10+ years driving growth across SaaS and e-commerce. I led 70+ experiments at JustAnswer (contributing to $15M in Net LTV) and owned funnel optimization at Parallels (boosting conversion 45% and generating $12M+ in quarterly recurring revenue).
-              </p>
-              <div className="text-sm text-gray-500 font-light">
-                Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
-              </div>
+          {/* About */}
+          <div className="mb-16">
+            <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
+            <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
+              I'm a product manager with 10+ years driving growth across SaaS and e-commerce. I led 70+ experiments at JustAnswer (contributing to $15M in Net LTV) and owned funnel optimization at Parallels (boosting conversion 45% and generating $12M+ in quarterly recurring revenue).
+            </p>
+            <div className="text-sm text-gray-500 font-light">
+              Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
             </div>
+          </div>
 
-            {/* Achievements */}
-            <div>
-              <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">Impact</h2>
-              <div className="grid grid-cols-2 gap-8">
-                {achievements.map((item, index) => (
-                  <div key={index}>
-                    <div className="text-3xl font-light mb-1">{item.metric}</div>
-                    <div className="text-sm font-medium mb-1">{item.label}</div>
-                    <div className="text-xs text-gray-500 font-light">{item.detail}</div>
-                  </div>
-                ))}
-              </div>
+          {/* Achievements */}
+          <div>
+            <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Impact</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {achievements.map((item, index) => (
+                <CountUpMetric key={index} item={item} delay={index * 100} />
+              ))}
             </div>
           </div>
         </div>
