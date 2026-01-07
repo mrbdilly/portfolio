@@ -183,7 +183,7 @@ export default function PMPortfolio() {
               My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.
             </p>
             <div className="text-sm text-gray-500 font-light">
-              Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
+              Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
             </div>
           </div>
 
