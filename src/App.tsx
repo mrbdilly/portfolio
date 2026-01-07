@@ -198,7 +198,7 @@ export default function PMPortfolio() {
       </section>
 
       {/* Case Studies Section */}
-      <section id="work" className="py-20 px-6">
+      <section id="work" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Work</h2>
           <div className="grid md:grid-cols-2 gap-12">
