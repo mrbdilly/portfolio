@@ -16,7 +16,7 @@ export default function PMPortfolio() {
     setMobileMenuOpen(false);
   };
 
-  // Count-up animation component - FULL ORIGINAL LOGIC
+  // Count-up animation component - FULL ORIGINAL LOGIC PRESERVED
   const CountUpMetric = ({ item, delay }) => {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -179,8 +179,8 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* Hero Section - UPDATED PADDING: Reduced pt-32 to pt-16 (mobile) and pt-40 to pt-20 (desktop) */}
-      <section className="pt-16 md:pt-20 pb-16 px-6 min-h-screen flex items-center">
+      {/* Hero Section */}
+      <section className="pt-16 md:pt-20 pb-16 px-6 min-h-screen flex flex-col justify-center">
         <div className="max-w-5xl mx-auto lg:px-0 w-full">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-light mb-6 leading-tight">
@@ -195,21 +195,26 @@ export default function PMPortfolio() {
             <p className="text-lg font-medium mb-3">
               100+ experiments. $27M+ in revenue impact.
             </p>
-            <p className="text-base text-gray-600 font-light italic mb-12">
+            <p className="text-base text-gray-600 font-light italic mb-20 md:mb-24">
               Because good product decisions come from evidence, not opinions.
             </p>
-            
-            <button
-              onClick={() => scrollToSection('about')}
-              className="flex flex-col items-center gap-2 text-gray-600 hover:text-black transition-colors group"
-            >
-              <span className="text-sm md:text-base font-light">Curious to learn more? Keep scrolling.</span>
-              <ChevronDown 
-                size={24} 
-                className="animate-bounce"
-              />
-            </button>
           </div>
+        </div>
+
+        {/* UPDATED: Centered Teaser CTA */}
+        <div className="w-full flex justify-center">
+          <button
+            onClick={() => scrollToSection('about')}
+            className="flex flex-col items-center gap-3 text-gray-400 hover:text-black transition-all duration-300 group"
+          >
+            <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-light">
+              Curious to learn more? Keep scrolling.
+            </span>
+            <ChevronDown 
+              size={20} 
+              className="animate-bounce opacity-70 group-hover:opacity-100"
+            />
+          </button>
         </div>
       </section>
 
