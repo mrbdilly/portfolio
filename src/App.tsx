@@ -171,7 +171,7 @@ export default function PMPortfolio() {
               I make products less broken and more profitable.
             </p>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6">
-              Over the past decade, I've shipped products across SaaS and e-commerce that people actually use—and that move the revenue needle. My approach is simple: stay scrappy, test relentlessly, but never lose sight of what actually matters to the business.
+              Over the past decade, I've shipped products across SaaS and e-commerce that people actually use — and that move the revenue needle.
             </p>
             <p className="text-lg font-medium mb-3">
               100+ experiments. $27M+ in revenue impact.
@@ -185,7 +185,7 @@ export default function PMPortfolio() {
               onClick={() => scrollToSection('about')}
               className="flex flex-col items-center gap-2 text-gray-600 hover:text-black transition-colors group"
             >
-              <span className="text-base font-light">Curious? Keep scrolling</span>
+              <span className="text-base font-light">Curious to learn more? Keep scrolling.</span>
               <ChevronDown 
                 size={24} 
                 className="animate-bounce"
@@ -202,13 +202,16 @@ export default function PMPortfolio() {
           <div className="mb-16">
             <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
-              Over the past decade, I've built products across SaaS and e-commerce that people actually want to use—and that drive real business results.
+              I build where ambiguity lives: early bets, messy funnels, unclear signals.
             </p>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
               My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.
             </p>
+            <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
+              I care about what works, why it works, and how to scale it.
+            </p>
             <div className="text-sm text-gray-500 font-light">
-              Experimentation · AI Product · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
+              Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
             </div>
           </div>
 
