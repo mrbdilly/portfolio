@@ -3,7 +3,6 @@ import { Menu, X, Linkedin, Mail, ChevronDown, ExternalLink } from 'lucide-react
 
 export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // State for the Product Playground modal
   const [selectedProject, setSelectedProject] = useState(null);
 
   // Add Helvetica Neue font
@@ -17,7 +16,7 @@ export default function PMPortfolio() {
     setMobileMenuOpen(false);
   };
 
-  // Count-up animation component
+  // Count-up animation component - FULL ORIGINAL LOGIC RESTORED
   const CountUpMetric = ({ item, delay }) => {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -108,25 +107,24 @@ export default function PMPortfolio() {
     }
   ];
 
-  // New Data for Product Playground
   const sideProjects = [
     {
       title: 'Project Alpha',
       subtitle: 'A specialized tool for analyzing user churn patterns in SaaS.',
       image: '/images/project-alpha.png',
-      fullContent: 'Detailed breakdown of Project Alpha: Problem statement, user research, wireframes, and final impact results.'
+      fullContent: 'This side project focused on identifying early-warning signals for churn in subscription models. I built a predictive framework that analyzes high-frequency engagement data to trigger automated recovery workflows.'
     },
     {
       title: 'Market Pulse AI',
       subtitle: 'LLM-powered dashboard for real-time competitor sentiment analysis.',
       image: '/images/project-beta.png',
-      fullContent: 'A deep dive into how Market Pulse uses GPT-4 to scrape and categorize sentiment across social platforms.'
+      fullContent: 'Using a combination of web-scraping and LLM categorization, Market Pulse allows product teams to see how users are reacting to competitor feature launches in real-time, moving from anecdotal evidence to structured data.'
     },
     {
       title: 'OnboardFlow',
       subtitle: 'Custom framework for testing B2B onboarding friction points.',
       image: '/images/project-gamma.png',
-      fullContent: 'An exploration of the friction-reduction framework that decreased drop-off by 15% in the first 24 hours.'
+      fullContent: 'OnboardFlow is a lightweight experimentation layer that can be dropped into existing onboarding funnels. It focuses on isolating the "Aha! moment" and measuring time-to-value for new users.'
     }
   ];
 
@@ -139,13 +137,12 @@ export default function PMPortfolio() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      {/* Navigation - UPDATED with light blue/gray background */}
-      <nav className="fixed top-0 left-0 right-0 bg-slate-50/90 backdrop-blur-sm border-b border-slate-100 z-50">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      {/* Navigation - UPDATED: Gradient and Left-Alignment */}
+      <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-slate-100/90 via-white/95 to-blue-50/90 backdrop-blur-md z-50 border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-0 py-5 flex items-center justify-between">
           <div className="text-lg font-medium">Bennett Dilly</div>
           
-          {/* Desktop Menu */}
-          <div className="hidden md:flex gap-10">
+          <div className="hidden md:flex gap-10 pr-6">
             {['About', 'Work', 'Contact'].map((item) => (
               <button
                 key={item}
@@ -157,18 +154,16 @@ export default function PMPortfolio() {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden pr-6"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-slate-50 border-b border-slate-100">
+          <div className="md:hidden bg-white border-b border-gray-100">
             <div className="flex flex-col px-6 py-4 gap-4">
               {['About', 'Work', 'Contact'].map((item) => (
                 <button
@@ -184,7 +179,7 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - ALL ORIGINAL PARAGRAPHS RESTORED */}
       <section className="pt-40 pb-16 px-6 min-h-screen flex items-center">
         <div className="max-w-5xl mx-auto px-0 w-full">
           <div className="max-w-3xl">
@@ -218,7 +213,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* About + Achievements Section */}
+      {/* About + Achievements Section - ALL ORIGINAL PARAGRAPHS RESTORED */}
       <section id="about" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto px-0">
           <div className="mb-16">
@@ -282,15 +277,17 @@ export default function PMPortfolio() {
                 onClick={() => setSelectedProject(project)}
                 className="group cursor-pointer block"
               >
-                <div className="aspect-video bg-gray-100 mb-4 overflow-hidden rounded-sm border border-gray-100 group-hover:border-gray-300 transition-colors">
+                <div className="aspect-video bg-gray-50 mb-4 overflow-hidden rounded-sm border border-gray-100 group-hover:border-slate-300 transition-colors">
                   <img 
                     src={project.image} 
                     alt={project.title}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                    onError={(e) => { e.target.style.display = 'none'; }} // Fallback if image doesn't exist
+                    onError={(e) => { e.target.style.display = 'none'; }} 
                   />
+                  {/* Fallback visual if no image */}
+                  <div className="w-full h-full flex items-center justify-center bg-slate-50 text-slate-300 italic text-xs">Project Preview</div>
                 </div>
-                <h3 className="text-lg font-medium mb-1 group-hover:text-gray-600 transition-colors flex items-center gap-2">
+                <h3 className="text-lg font-medium mb-1 group-hover:text-blue-600 transition-colors flex items-center gap-2">
                   {project.title} <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </h3>
                 <p className="text-sm text-gray-500 font-light leading-relaxed">
@@ -302,20 +299,34 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Modal for "Full Breadth" of Product Playground Projects */}
+      {/* UPDATED: High-Contrast Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-white/95 backdrop-blur-sm">
-          <div className="max-w-2xl w-full">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-6">
+          {/* Dark backdrop for high visibility */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setSelectedProject(null)}
+          ></div>
+          
+          <div className="relative max-w-2xl w-full bg-white rounded-lg shadow-2xl p-8 md:p-12 animate-in fade-in zoom-in duration-200">
             <button 
               onClick={() => setSelectedProject(null)}
-              className="mb-8 text-sm uppercase tracking-widest flex items-center gap-2 hover:text-gray-500 transition-colors"
+              className="absolute top-6 right-6 text-gray-400 hover:text-black transition-colors"
             >
-              <X size={16} /> Close
+              <X size={24} />
             </button>
-            <h2 className="text-4xl font-light mb-4">{selectedProject.title}</h2>
-            <p className="text-xl text-gray-600 font-light mb-8">{selectedProject.subtitle}</p>
-            <div className="prose prose-sm font-light text-gray-700 leading-relaxed">
+            <h2 className="text-3xl font-light mb-2">{selectedProject.title}</h2>
+            <p className="text-xl text-blue-600 font-light mb-8">{selectedProject.subtitle}</p>
+            <div className="text-gray-700 font-light leading-relaxed border-t border-gray-100 pt-6">
               {selectedProject.fullContent}
+            </div>
+            <div className="mt-10">
+              <button 
+                onClick={() => setSelectedProject(null)}
+                className="text-sm uppercase tracking-widest font-medium text-gray-400 hover:text-black transition-colors"
+              >
+                Close Project
+              </button>
             </div>
           </div>
         </div>
@@ -348,7 +359,6 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto px-0">
           <p className="text-sm text-gray-400 font-light">
