@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Linkedin, Mail } from 'lucide-react';
+import { Menu, X, Linkedin, Mail, ChevronDown } from 'lucide-react';
 
 export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -160,25 +160,37 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-40 pb-8 px-6">
-        <div className="max-w-5xl mx-auto px-0">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-5xl md:text-6xl font-light mb-6 leading-tight">
-                Hi, I'm Bennett.
-              </h1>
-              <p className="text-2xl text-gray-700 font-light max-w-2xl">
-                I make products less broken and more profitable.
-              </p>
-            </div>
-            <div>
-              <img 
-                src="/images/bd-web-hero.png" 
-                alt="Bennett at work" 
-                className="w-full max-w-md h-auto object-contain"
+      {/* Hero Section - UPDATED */}
+      <section className="pt-40 pb-16 px-6 min-h-screen flex items-center">
+        <div className="max-w-5xl mx-auto px-0 w-full">
+          <div className="max-w-3xl">
+            <h1 className="text-5xl md:text-6xl font-light mb-6 leading-tight">
+              Hi, I'm Bennett.
+            </h1>
+            <p className="text-2xl text-gray-700 font-light mb-6">
+              I make products less broken and more profitable.
+            </p>
+            <p className="text-lg text-gray-700 font-light leading-relaxed mb-6">
+              Over the past decade, I've shipped products across SaaS and e-commerce that people actually use—and that move the revenue needle. My approach is simple: stay scrappy, test relentlessly, but never lose sight of what actually matters to the business.
+            </p>
+            <p className="text-lg font-medium mb-3">
+              100+ experiments. $27M+ in revenue impact.
+            </p>
+            <p className="text-base text-gray-600 font-light italic mb-12">
+              Because good product decisions come from evidence, not opinions.
+            </p>
+            
+            {/* Scroll CTA */}
+            <button
+              onClick={() => scrollToSection('about')}
+              className="flex flex-col items-center gap-2 text-gray-600 hover:text-black transition-colors group"
+            >
+              <span className="text-base font-light">Curious? Keep scrolling</span>
+              <ChevronDown 
+                size={24} 
+                className="animate-bounce"
               />
-            </div>
+            </button>
           </div>
         </div>
       </section>
@@ -235,11 +247,20 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Contact Section - UPDATED */}
       <section id="contact" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto px-0">
           <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Contact</h2>
           <div className="space-y-3">
+            <a 
+              href="https://calendly.com/bennettdilly/connect" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-3 text-gray-700 hover:text-black transition-colors group"
+            >
+              <span className="text-xl">📅</span>
+              <span className="font-light">calendly.com/bennettdilly/connect</span>
+            </a>
             <a 
               href="https://linkedin.com/in/bennettdilly" 
               target="_blank" 
