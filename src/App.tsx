@@ -16,7 +16,7 @@ export default function PMPortfolio() {
     setMobileMenuOpen(false);
   };
 
-  // Count-up animation component - FULL ORIGINAL LOGIC PRESERVED
+  // Count-up animation component - FULL ORIGINAL LOGIC
   const CountUpMetric = ({ item, delay }) => {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -201,18 +201,18 @@ export default function PMPortfolio() {
           </div>
         </div>
 
-        {/* UPDATED: Centered Teaser CTA */}
+        {/* REVERTED: Centered Teaser CTA with original styling */}
         <div className="w-full flex justify-center">
           <button
             onClick={() => scrollToSection('about')}
-            className="flex flex-col items-center gap-3 text-gray-400 hover:text-black transition-all duration-300 group"
+            className="flex flex-col items-center gap-2 text-gray-600 hover:text-black transition-colors group"
           >
-            <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-light">
+            <span className="text-sm md:text-base font-light">
               Curious to learn more? Keep scrolling.
             </span>
             <ChevronDown 
-              size={20} 
-              className="animate-bounce opacity-70 group-hover:opacity-100"
+              size={24} 
+              className="animate-bounce"
             />
           </button>
         </div>
