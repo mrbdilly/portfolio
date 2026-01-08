@@ -117,7 +117,7 @@ export default function PMPortfolio() {
     <div className="min-h-screen bg-white text-black">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-white z-50">
-        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-0 py-0 flex items-center justify-between">
           <div className="text-lg font-medium">Bennett Dilly</div>
           
           {/* Desktop Menu */}
