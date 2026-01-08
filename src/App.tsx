@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Menu, X, Linkedin, Mail, ChevronDown } from 'lucide-react';
+import { Menu, X, Linkedin, Mail, ChevronDown, ExternalLink } from 'lucide-react';
 
 export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // State for the Product Playground modal
+  const [selectedProject, setSelectedProject] = useState(null);
 
   // Add Helvetica Neue font
   React.useEffect(() => {
@@ -106,6 +108,28 @@ export default function PMPortfolio() {
     }
   ];
 
+  // New Data for Product Playground
+  const sideProjects = [
+    {
+      title: 'Project Alpha',
+      subtitle: 'A specialized tool for analyzing user churn patterns in SaaS.',
+      image: '/images/project-alpha.png',
+      fullContent: 'Detailed breakdown of Project Alpha: Problem statement, user research, wireframes, and final impact results.'
+    },
+    {
+      title: 'Market Pulse AI',
+      subtitle: 'LLM-powered dashboard for real-time competitor sentiment analysis.',
+      image: '/images/project-beta.png',
+      fullContent: 'A deep dive into how Market Pulse uses GPT-4 to scrape and categorize sentiment across social platforms.'
+    },
+    {
+      title: 'OnboardFlow',
+      subtitle: 'Custom framework for testing B2B onboarding friction points.',
+      image: '/images/project-gamma.png',
+      fullContent: 'An exploration of the friction-reduction framework that decreased drop-off by 15% in the first 24 hours.'
+    }
+  ];
+
   const achievements = [
     { metric: '100+', label: 'Experiments', detail: 'A/B tests on onboarding & engagement' },
     { metric: '$27M+', label: 'Revenue Impact', detail: 'JustAnswer + Parallels combined' },
@@ -115,9 +139,9 @@ export default function PMPortfolio() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-white z-50">
-        <div className="max-w-5xl mx-auto px-0 py-0 flex items-center justify-between">
+      {/* Navigation - UPDATED with light blue/gray background */}
+      <nav className="fixed top-0 left-0 right-0 bg-slate-50/90 backdrop-blur-sm border-b border-slate-100 z-50">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="text-lg font-medium">Bennett Dilly</div>
           
           {/* Desktop Menu */}
@@ -144,7 +168,7 @@ export default function PMPortfolio() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white">
+          <div className="md:hidden bg-slate-50 border-b border-slate-100">
             <div className="flex flex-col px-6 py-4 gap-4">
               {['About', 'Work', 'Contact'].map((item) => (
                 <button
@@ -160,7 +184,7 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* Hero Section - UPDATED */}
+      {/* Hero Section */}
       <section className="pt-40 pb-16 px-6 min-h-screen flex items-center">
         <div className="max-w-5xl mx-auto px-0 w-full">
           <div className="max-w-3xl">
@@ -180,7 +204,6 @@ export default function PMPortfolio() {
               Because good product decisions come from evidence, not opinions.
             </p>
             
-            {/* Scroll CTA */}
             <button
               onClick={() => scrollToSection('about')}
               className="flex flex-col items-center gap-2 text-gray-600 hover:text-black transition-colors group"
@@ -198,7 +221,6 @@ export default function PMPortfolio() {
       {/* About + Achievements Section */}
       <section id="about" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto px-0">
-          {/* About */}
           <div className="mb-16">
             <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
             <p className="text-lg text-gray-700 font-light leading-relaxed mb-6 max-w-3xl">
@@ -215,7 +237,6 @@ export default function PMPortfolio() {
             </div>
           </div>
 
-          {/* Achievements */}
           <div>
             <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Impact</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -250,7 +271,57 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Contact Section - UPDATED */}
+      {/* NEW SECTION: Product Playground */}
+      <section className="py-20 px-6 border-t border-gray-200">
+        <div className="max-w-5xl mx-auto px-0">
+          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Product Playground</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {sideProjects.map((project, index) => (
+              <div 
+                key={index}
+                onClick={() => setSelectedProject(project)}
+                className="group cursor-pointer block"
+              >
+                <div className="aspect-video bg-gray-100 mb-4 overflow-hidden rounded-sm border border-gray-100 group-hover:border-gray-300 transition-colors">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    onError={(e) => { e.target.style.display = 'none'; }} // Fallback if image doesn't exist
+                  />
+                </div>
+                <h3 className="text-lg font-medium mb-1 group-hover:text-gray-600 transition-colors flex items-center gap-2">
+                  {project.title} <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                </h3>
+                <p className="text-sm text-gray-500 font-light leading-relaxed">
+                  {project.subtitle}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Modal for "Full Breadth" of Product Playground Projects */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-white/95 backdrop-blur-sm">
+          <div className="max-w-2xl w-full">
+            <button 
+              onClick={() => setSelectedProject(null)}
+              className="mb-8 text-sm uppercase tracking-widest flex items-center gap-2 hover:text-gray-500 transition-colors"
+            >
+              <X size={16} /> Close
+            </button>
+            <h2 className="text-4xl font-light mb-4">{selectedProject.title}</h2>
+            <p className="text-xl text-gray-600 font-light mb-8">{selectedProject.subtitle}</p>
+            <div className="prose prose-sm font-light text-gray-700 leading-relaxed">
+              {selectedProject.fullContent}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Contact Section */}
       <section id="contact" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto px-0">
           <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Contact</h2>
