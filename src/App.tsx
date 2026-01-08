@@ -3,7 +3,6 @@ import { Menu, X, Linkedin, Mail, ChevronDown, ExternalLink } from 'lucide-react
 
 export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // State for the Product Playground modal
   const [selectedProject, setSelectedProject] = useState(null);
 
   // Add Helvetica Neue font
@@ -138,7 +137,7 @@ export default function PMPortfolio() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      {/* Navigation - Gradient + Left-Aligned + Responsive Padding */}
+      {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-slate-100/90 via-white/95 to-blue-50/90 backdrop-blur-md z-50 border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 lg:px-0 py-5 flex items-center justify-between">
           <div className="text-lg font-medium">Bennett Dilly</div>
@@ -180,8 +179,8 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* Hero Section - FULL CONTENT */}
-      <section className="pt-32 md:pt-40 pb-16 px-6 min-h-screen flex items-center">
+      {/* Hero Section - UPDATED PADDING: Reduced pt-32 to pt-16 (mobile) and pt-40 to pt-20 (desktop) */}
+      <section className="pt-16 md:pt-20 pb-16 px-6 min-h-screen flex items-center">
         <div className="max-w-5xl mx-auto lg:px-0 w-full">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-light mb-6 leading-tight">
@@ -214,7 +213,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* About + Achievements - FULL CONTENT */}
+      {/* About + Achievements */}
       <section id="about" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto lg:px-0">
           <div className="mb-16">
@@ -267,7 +266,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Product Playground - NEW SECTION */}
+      {/* Product Playground */}
       <section className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto lg:px-0">
           <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Product Playground</h2>
@@ -302,13 +301,11 @@ export default function PMPortfolio() {
       {/* Responsive Bottom Sheet / Modal Overlay */}
       {selectedProject && (
         <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
-          {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setSelectedProject(null)}
           ></div>
           
-          {/* Modal Container: Bottom Sheet on Mobile, Centered Card on Desktop */}
           <div className="relative w-full md:max-w-2xl bg-white rounded-t-2xl md:rounded-lg shadow-2xl p-8 md:p-12 animate-in slide-in-from-bottom md:zoom-in duration-300 max-h-[90vh] overflow-y-auto">
             <button 
               onClick={() => setSelectedProject(null)}
@@ -336,7 +333,7 @@ export default function PMPortfolio() {
         </div>
       )}
 
-      {/* Contact Section - FULL CONTENT */}
+      {/* Contact Section */}
       <section id="contact" className="py-20 px-6 border-t border-gray-200">
         <div className="max-w-5xl mx-auto lg:px-0">
           <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Contact</h2>
