@@ -168,17 +168,20 @@ export default function PMPortfolio() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-blue-500/30" style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}>
       
-      {/* IMPROVED NAVIGATION - Better contrast and readability */}
+      {/* CLASSIC NAVIGATION BAR */}
       <nav className={cn(
-        "fixed left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-5xl transition-all duration-500 ease-in-out",
-        navVisible ? "top-6" : "-top-24"
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out",
+        navVisible ? "translate-y-0" : "-translate-y-full"
       )}>
         <div 
-          className="rounded-full px-1.5 py-1.5 shadow-2xl shadow-blue-500/20 border border-white/10 bg-black/90 backdrop-blur-xl"
+          className="px-6 md:px-12 py-4 backdrop-blur-xl"
+          style={{
+            borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+          }}
         >
-          <div className="flex items-center justify-between">
-            {/* Links - Now clearly visible white text */}
-            <div className="flex items-center gap-1 pl-2">
+          <div className="max-w-7xl mx-auto flex items-center justify-end">
+            {/* Links - Right aligned */}
+            <div className="flex items-center gap-1">
               <a
                 href="#about"
                 onClick={(e) => scrollToSection(e, '#about')}
@@ -228,11 +231,6 @@ export default function PMPortfolio() {
                 />
               </a>
             </div>
-
-            {/* Mobile Toggle */}
-            <button className="md:hidden pr-4 text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
           </div>
         </div>
 
