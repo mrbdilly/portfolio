@@ -271,7 +271,7 @@ export default function PMPortfolio() {
         <div className="max-w-5xl mx-auto">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-4 font-medium">About</h2>
           <p className="text-xl md:text-2xl text-gray-400 font-light mb-16 max-w-3xl">
-            I turn data into decisions. Through rigorous experimentation and user research, I've helped companies increase revenue, optimize conversion funnels, and build AI-powered features that scale.
+            I turn data into decisions. Through user research, experimentation, and cross-functional collaboration, I help companies design and ship products that solve real problems. I build AI-powered features that scale, creating experiences that delight users, optimize key funnels, and drive measurable business impact.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {achievements.map((item, index) => (
