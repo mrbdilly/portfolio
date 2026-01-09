@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Linkedin, ChevronDown, ExternalLink } from 'lucide-react';
+import { Menu, X, Linkedin, ChevronDown, ChevronRight } from 'lucide-react';
 
 const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
-// Memoized to prevent re-triggering during Nav hovers
+// Fixed metrics component with proper one-time animation
 const CountUpMetric = React.memo(({ item, delay }: { item: any, delay: number }) => {
   const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const hasAnimatedRef = useRef(false);
   const elementRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
+        if (entries[0].isIntersecting && !hasAnimatedRef.current) {
+          hasAnimatedRef.current = true;
           const metricStr = item.metric;
           let targetValue = parseFloat(metricStr.replace(/[^0-9.]/g, '')) || 0;
           const duration = 2000;
@@ -38,7 +38,7 @@ const CountUpMetric = React.memo(({ item, delay }: { item: any, delay: number })
     );
     if (elementRef.current) observer.observe(elementRef.current);
     return () => observer.disconnect();
-  }, [hasAnimated, item.metric, delay]);
+  }, [item.metric, delay]);
 
   const formatCount = (val: number) => {
     const metricStr = item.metric;
@@ -64,8 +64,6 @@ export default function PMPortfolio() {
   const [navVisible, setNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
-
-  const SHOW_PLAYGROUND = false;
 
   const navLinks = [
     { label: "ABOUT", href: "#about" },
@@ -111,76 +109,128 @@ export default function PMPortfolio() {
   const caseStudies = [
     {
       company: 'JUSTANSWER',
-      title: 'AI-Driven Customer Interaction Optimization',
-      description: 'Led AI-powered features at JustAnswer optimizing customer interactions through 70+ experiments.',
+      title: 'Driving Growth with AI-Powered Customer Journeys',
+      description: 'Owned strategy and execution of AI-driven funnel experiences, improving conversion while strengthening onboarding and retention.',
       metrics: '$15M Net LTV increase',
-      fullContent: 'Extensive work on LLM integration for customer support routing. Conducted 70+ high-velocity experiments focused on reducing friction in the expert-connection funnel. This phase will be updated with technical breakdowns of the AI logic, prompt engineering strategies, and cohort analysis results that fueled the $15M LTV lift.'
+      fullContent: {
+        keyImpact: [
+          '$15M+ incremental LTV',
+          'Double-digit CR lift (mobile + desktop)',
+          '70+ experiments shipped',
+          'End-to-end ownership of AI-powered customer experiences'
+        ],
+        problem: 'Users were dropping off between asking questions and converting to paid subscriptions. Friction and unclear value messaging reduced conversion, while onboarding and retention had room for improvement.',
+        role: 'Owned strategy and execution as Product Manager, leading experiments and shipping AI-powered solutions end-to-end.',
+        approach: [
+          'Mapped the full funnel and prioritized friction points for experimentation.',
+          'Ran 70+ hypothesis-driven experiments, focusing on AI-powered personalization and trust cues.',
+          'Optimized conversion, onboarding, and retention across mobile and desktop.'
+        ],
+        keyImpactRepeat: [
+          '$15M+ incremental LTV',
+          'Double-digit CR lift (mobile + desktop)',
+          '70+ experiments shipped',
+          'End-to-end ownership of AI-powered customer experiences'
+        ],
+        insight: 'Small, data-driven improvements compounded into meaningful growth, showing that AI works best as a product lever –– not a gimmick.'
+      }
     },
     {
       company: 'PARALLELS',
-      title: 'Global Subscription Funnel Optimization',
-      description: 'Owned end-to-end funnel optimization with data-driven testing framework at Parallels.',
+      title: 'Revenue by Design: Experiments That Scale',
+      description: 'Owned strategy and execution of growth-focused initiatives for software products, optimizing conversion, onboarding, and retention across multiple channels.',
       metrics: '45% conversion increase, $12M+ QRR',
-      fullContent: 'Redesigned the global checkout experience for Parallels Desktop. Implemented a multi-variant testing framework that optimized pricing elasticity across European and Asian markets. Key focus on trial-to-paid conversion logic and reducing checkout abandonment via localized payment methods.'
-    }
-  ];
-
-  const sideProjects = [
-    {
-      title: 'Project Alpha',
-      subtitle: 'A specialized tool for analyzing user churn patterns in SaaS.',
-      fullContent: 'This side project focused on identifying early-warning signals for churn in subscription models. I built a predictive framework that analyzes high-frequency engagement data to trigger automated recovery workflows, specifically targeting users who show a 30% drop in session frequency over a 7-day rolling window.'
+      fullContent: {
+        keyImpact: [
+          '$12M+ quarterly recurring revenue generated via A/B testing',
+          '45% increase in global subscription rates',
+          '20% lift in conversion across funnels',
+          '40+ experiments shipped'
+        ],
+        problem: 'Subscription funnels across global markets had friction points that limited overall growth –– users dropped off during onboarding, conversion was inconsistent, and retention could be improved.',
+        role: 'As Sr. E-Commerce Marketing Manager, owned strategy and execution, collaborating with UX, Engineering, and Product to optimize funnels end-to-end.',
+        approach: [
+          'Ran hypothesis-driven experiments across the full subscription lifecycle to improve conversion and retention.',
+          'Optimized onboarding flows, landing pages, email campaigns, and in-app messaging using iterative A/B testing.',
+          'Partnered with cross-functional teams to translate customer insights into feature enhancements and validate releases.'
+        ],
+        keyImpactRepeat: [
+          '$12M+ quarterly recurring revenue generated via A/B testing',
+          '45% increase in global subscription rates',
+          '20% lift in conversion across funnels',
+          '40+ experiments shipped'
+        ],
+        insight: 'Iterative, data-driven improvements across the subscription lifecycle consistently drove measurable growth, showing that small, targeted experiments compound into significant revenue impact.'
+      }
     }
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-blue-500/30">
+    <div className="min-h-screen bg-black text-white selection:bg-blue-500/30" style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}>
       
-      {/* FIXED NAVIGATION UI */}
+      {/* IMPROVED NAVIGATION - Better contrast and readability */}
       <nav className={cn(
         "fixed left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-5xl transition-all duration-500 ease-in-out",
         navVisible ? "top-6" : "-top-24"
       )}>
         <div 
-          style={{
-            background: 'linear-gradient(to right, #000000 0%, #2563eb 50%, #ffffff 100%)',
-            backdropFilter: 'blur(12px)'
-          }}
-          className="rounded-full px-1.5 py-1.5 shadow-2xl shadow-blue-500/20 border border-white/10"
+          className="rounded-full px-1.5 py-1.5 shadow-2xl shadow-blue-500/20 border border-white/10 bg-black/90 backdrop-blur-xl"
         >
           <div className="flex items-center justify-between">
-            {/* Logo - Fixed White */}
-            <a href="#" className="flex items-center rounded-full bg-white/10 px-5 py-2.5 transition-all hover:bg-white/20">
-              <span className="font-bold tracking-[0.2em] text-xs md:text-sm text-white uppercase">
-                BENNETT DILLY
-              </span>
-            </a>
-
-            {/* Links - Fixed Dark Slate for visibility against White background */}
-            <div className="hidden md:flex items-center gap-1 pr-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => scrollToSection(e, link.href)}
-                  onMouseEnter={() => setHoveredLink(link.label)}
-                  onMouseLeave={() => setHoveredLink(null)}
-                  style={{ color: hoveredLink === link.label ? '#2563eb' : '#0f172a' }}
-                  className="relative px-5 py-2.5 text-xs font-bold tracking-[0.2em] transition-all uppercase"
-                >
-                  {link.label}
-                  <span
-                    className={cn(
-                      "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-[2px] bg-blue-600 transition-all duration-300",
-                      hoveredLink === link.label ? "w-6" : "w-0"
-                    )}
-                  />
-                </a>
-              ))}
+            {/* Links - Now clearly visible white text */}
+            <div className="flex items-center gap-1 pl-2">
+              <a
+                href="#about"
+                onClick={(e) => scrollToSection(e, '#about')}
+                onMouseEnter={() => setHoveredLink('ABOUT')}
+                onMouseLeave={() => setHoveredLink(null)}
+                style={{ color: hoveredLink === 'ABOUT' ? '#60a5fa' : '#d1d5db' }}
+                className="relative px-5 py-2.5 text-xs font-bold tracking-[0.2em] transition-all uppercase"
+              >
+                ABOUT
+                <span
+                  className={cn(
+                    "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-[2px] bg-blue-500 transition-all duration-300",
+                    hoveredLink === 'ABOUT' ? "w-6" : "w-0"
+                  )}
+                />
+              </a>
+              <a
+                href="#work"
+                onClick={(e) => scrollToSection(e, '#work')}
+                onMouseEnter={() => setHoveredLink('WORK')}
+                onMouseLeave={() => setHoveredLink(null)}
+                style={{ color: hoveredLink === 'WORK' ? '#60a5fa' : '#d1d5db' }}
+                className="relative px-5 py-2.5 text-xs font-bold tracking-[0.2em] transition-all uppercase"
+              >
+                WORK
+                <span
+                  className={cn(
+                    "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-[2px] bg-blue-500 transition-all duration-300",
+                    hoveredLink === 'WORK' ? "w-6" : "w-0"
+                  )}
+                />
+              </a>
+              <a
+                href="#contact"
+                onClick={(e) => scrollToSection(e, '#contact')}
+                onMouseEnter={() => setHoveredLink('CONTACT')}
+                onMouseLeave={() => setHoveredLink(null)}
+                style={{ color: hoveredLink === 'CONTACT' ? '#60a5fa' : '#d1d5db' }}
+                className="relative px-5 py-2.5 text-xs font-bold tracking-[0.2em] transition-all uppercase"
+              >
+                CONTACT
+                <span
+                  className={cn(
+                    "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-[2px] bg-blue-500 transition-all duration-300",
+                    hoveredLink === 'CONTACT' ? "w-6" : "w-0"
+                  )}
+                />
+              </a>
             </div>
 
-            {/* Mobile Toggle - Dark to contrast with white end of bar */}
-            <button className="md:hidden pr-4 text-slate-900" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {/* Mobile Toggle */}
+            <button className="md:hidden pr-4 text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
@@ -200,14 +250,14 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* Hero */}
+      {/* Hero - Enhanced for recruiters */}
       <section className="pt-20 pb-16 px-6 min-h-screen flex flex-col justify-center">
         <div className="max-w-5xl mx-auto w-full">
           <h1 className="text-5xl md:text-8xl font-light mb-8 leading-tight tracking-tighter">Hi, I'm Bennett.</h1>
-          <p className="text-xl md:text-2xl text-gray-400 font-light mb-8">I make products less broken and more profitable.</p>
-          <div className="flex flex-col gap-2">
-            <p className="text-lg font-medium text-blue-500">100+ experiments. $27M+ in revenue impact.</p>
-            <p className="text-sm text-gray-600 font-light italic">Good product decisions come from evidence, not opinions.</p>
+          <p className="text-xl md:text-3xl text-gray-300 font-light mb-6">I make products less broken and more profitable.</p>
+          <div className="flex flex-col gap-3 mb-8">
+            <p className="text-lg md:text-xl font-medium text-blue-400">100+ experiments. $27M+ in revenue impact.</p>
+            <p className="text-base md:text-lg text-gray-500 font-light">Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy</p>
           </div>
         </div>
         <div className="w-full flex justify-center mt-12">
@@ -221,7 +271,10 @@ export default function PMPortfolio() {
       {/* About */}
       <section id="about" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-10 font-medium">About</h2>
+          <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-4 font-medium">About</h2>
+          <p className="text-xl md:text-2xl text-gray-400 font-light mb-16 max-w-3xl">
+            I turn data into decisions. Through rigorous experimentation and user research, I've helped companies increase revenue, optimize conversion funnels, and build AI-powered features that scale.
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {achievements.map((item, index) => (
               <CountUpMetric key={index} item={item} delay={index * 150} />
@@ -230,7 +283,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Work */}
+      {/* Work - Enhanced descriptions for recruiters */}
       <section id="work" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-16 font-medium">Work</h2>
@@ -243,8 +296,10 @@ export default function PMPortfolio() {
               >
                 <div className="text-gray-600 font-bold tracking-tighter text-2xl mb-6 uppercase group-hover:text-white transition-colors">{study.company}</div>
                 <h3 className="text-2xl font-light mb-4 text-gray-200 group-hover:text-blue-500 transition-colors">{study.title}</h3>
+                <p className="text-sm text-gray-500 mb-6 font-light leading-relaxed">{study.description}</p>
+                <div className="text-sm font-bold text-blue-400 mb-4">{study.metrics}</div>
                 <div className="text-xs font-bold text-blue-500 tracking-[0.2em] uppercase flex items-center gap-2">
-                  LEARN MORE <ExternalLink size={12} />
+                  LEARN MORE <ChevronRight size={16} />
                 </div>
               </div>
             ))}
@@ -263,11 +318,74 @@ export default function PMPortfolio() {
               </button>
               <div className="text-blue-500 text-xs font-bold tracking-[0.4em] mb-4 uppercase">{(selectedWork as any).company}</div>
               <h2 className="text-3xl md:text-5xl font-light mb-10 leading-tight">{(selectedWork as any).title}</h2>
+              
+              {/* Key Impact Box */}
               <div className="p-8 bg-blue-500/5 border border-blue-500/20 rounded-xl mb-10">
-                  <div className="text-xs text-blue-500 font-bold uppercase tracking-widest mb-2">Key Impact</div>
-                  <div className="text-2xl text-white font-light">{(selectedWork as any).metrics}</div>
+                <div className="text-xs text-blue-500 font-bold uppercase tracking-widest mb-4">Key Impact</div>
+                <ul className="space-y-2">
+                  {(selectedWork as any).fullContent?.keyImpact?.map((item: string, idx: number) => (
+                    <li key={idx} className="text-base text-white font-light flex items-start">
+                      <span className="text-blue-500 mr-3">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <p className="text-gray-400 font-light leading-relaxed text-lg whitespace-pre-line">{(selectedWork as any).fullContent}</p>
+
+              {/* Structured Content */}
+              {(selectedWork as any).fullContent?.problem && (
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-white mb-3">Problem</h3>
+                  <p className="text-gray-400 font-light leading-relaxed">{(selectedWork as any).fullContent.problem}</p>
+                </div>
+              )}
+
+              {(selectedWork as any).fullContent?.role && (
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-white mb-3">Role</h3>
+                  <p className="text-gray-400 font-light leading-relaxed">{(selectedWork as any).fullContent.role}</p>
+                </div>
+              )}
+
+              {(selectedWork as any).fullContent?.approach && (
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-white mb-3">Approach</h3>
+                  <ul className="space-y-2">
+                    {(selectedWork as any).fullContent.approach.map((item: string, idx: number) => (
+                      <li key={idx} className="text-gray-400 font-light leading-relaxed flex items-start">
+                        <span className="text-blue-500 mr-3 mt-1">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {(selectedWork as any).fullContent?.keyImpactRepeat && (
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-white mb-3">Key Impact</h3>
+                  <ul className="space-y-2">
+                    {(selectedWork as any).fullContent.keyImpactRepeat.map((item: string, idx: number) => (
+                      <li key={idx} className="text-gray-400 font-light leading-relaxed flex items-start">
+                        <span className="text-blue-500 mr-3">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {(selectedWork as any).fullContent?.insight && (
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-white mb-3">Insight</h3>
+                  <p className="text-gray-400 font-light leading-relaxed">{(selectedWork as any).fullContent.insight}</p>
+                </div>
+              )}
+
+              {/* Fallback for old format */}
+              {typeof (selectedWork as any).fullContent === 'string' && (
+                <p className="text-gray-400 font-light leading-relaxed text-lg whitespace-pre-line">{(selectedWork as any).fullContent}</p>
+              )}
             </div>
           )}
         </div>
@@ -277,9 +395,31 @@ export default function PMPortfolio() {
       <section id="contact" className="py-32 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-12 font-medium">Contact</h2>
-          <div className="flex flex-col gap-10">
-            <a href="https://linkedin.com/in/bennettdilly" className="text-xl md:text-3xl font-light text-gray-400 hover:text-white underline underline-offset-[12px] decoration-white/10 transition-all">linkedin.com/in/bennettdilly</a>
-            <a href="https://calendly.com/bennettdilly/connect" className="text-xl md:text-3xl font-light text-gray-400 hover:text-white underline underline-offset-[12px] decoration-white/10 transition-all">calendly.com/bennettdilly/connect</a>
+          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
+            <a 
+              href="https://calendly.com/bennettdilly/connect" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="group px-8 py-4 rounded-full font-medium text-white transition-all text-lg"
+              style={{ backgroundColor: '#12ab0f' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 30px rgba(18, 171, 15, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              Let's talk
+            </a>
+            <a 
+              href="https://linkedin.com/in/bennettdilly" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="px-8 py-4 rounded-full font-medium text-gray-400 border border-gray-700 hover:border-gray-500 hover:text-white transition-all text-lg flex items-center gap-3"
+            >
+              <Linkedin size={20} />
+              Or connect on LinkedIn
+            </a>
           </div>
         </div>
       </section>
