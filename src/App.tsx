@@ -5,14 +5,9 @@ export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // FEATURE FLAG: Set to true to launch Product Playground
-  const SHOW_PLAYGROUND = false;
-
-  // Add Helvetica Neue font and Dark Mode body styles
+  // Add Helvetica Neue font
   React.useEffect(() => {
     document.body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
-    document.body.style.backgroundColor = '#0f172a'; // slate-900
-    document.body.style.color = '#f8fafc'; // slate-50
   }, []);
 
   const scrollToSection = (id) => {
@@ -21,7 +16,7 @@ export default function PMPortfolio() {
     setMobileMenuOpen(false);
   };
 
-  // Count-up animation component - FULL ORIGINAL LOGIC RESTORED
+  // Count-up animation component - DARK MODE COMPATIBLE
   const CountUpMetric = ({ item, delay }) => {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -88,9 +83,9 @@ export default function PMPortfolio() {
 
     return (
       <div ref={elementRef}>
-        <div className="text-2xl md:text-3xl font-light mb-1 text-blue-400">{formatCount(count)}</div>
-        <div className="text-sm font-medium mb-1 text-slate-200">{item.label}</div>
-        <div className="text-xs text-slate-400 font-light">{item.detail}</div>
+        <div className="text-2xl md:text-3xl font-light mb-1 text-white">{formatCount(count)}</div>
+        <div className="text-sm font-medium mb-1 text-gray-200">{item.label}</div>
+        <div className="text-xs text-gray-400 font-light">{item.detail}</div>
       </div>
     );
   };
@@ -101,14 +96,14 @@ export default function PMPortfolio() {
       description: 'Led AI-powered features at JustAnswer optimizing customer interactions through 70+ experiments.',
       metrics: '$15M Net LTV increase',
       company: 'JustAnswer',
-      logo: '/images/ja-logo.png'
+      logo: '/images/ja-logo-dark.png' // Consider a white-version logo
     },
     {
       title: 'Global Subscription Funnel Optimization',
       description: 'Owned end-to-end funnel optimization at Parallels with data-driven testing framework.',
       metrics: '45% conversion increase, $12M+ QRR',
       company: 'Parallels',
-      logo: '/images/parallels-logo.png'
+      logo: '/images/parallels-logo-dark.png'
     }
   ];
 
@@ -141,9 +136,9 @@ export default function PMPortfolio() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-50">
-      {/* Navigation - Flush Left + Dark Gradient */}
-      <nav className="fixed top-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md z-50 border-b border-slate-800">
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      {/* Navigation - Dark Gradient */}
+      <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-[#111827]/90 via-[#0a0a0a]/95 to-[#1e1b4b]/90 backdrop-blur-md z-50 border-b border-white/10">
         <div className="max-w-5xl mx-auto px-6 lg:px-0 py-5 flex items-center justify-between">
           <div className="text-lg font-medium text-white">Bennett Dilly</div>
           
@@ -152,7 +147,7 @@ export default function PMPortfolio() {
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className="text-slate-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-white transition-colors"
               >
                 {item}
               </button>
@@ -160,7 +155,7 @@ export default function PMPortfolio() {
           </div>
 
           <button
-            className="md:hidden text-slate-400"
+            className="md:hidden text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -168,13 +163,13 @@ export default function PMPortfolio() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden bg-slate-900 border-b border-slate-800">
+          <div className="md:hidden bg-[#0a0a0a] border-b border-white/10">
             <div className="flex flex-col px-6 py-4 gap-4">
               {['About', 'Work', 'Contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="text-left text-slate-400 hover:text-white transition-colors"
+                  className="text-left text-gray-400 hover:text-white transition-colors"
                 >
                   {item}
                 </button>
@@ -184,34 +179,37 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* Hero Section - Reduced Padding + Centered Teaser */}
+      {/* Hero Section */}
       <section className="pt-16 md:pt-20 pb-16 px-6 min-h-screen flex flex-col justify-center">
         <div className="max-w-5xl mx-auto lg:px-0 w-full">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-light mb-6 leading-tight text-white">
               Hi, I'm Bennett.
             </h1>
-            <p className="text-xl md:text-2xl text-slate-300 font-light mb-6">
+            <p className="text-xl md:text-2xl text-gray-300 font-light mb-6">
               I make products less broken and more profitable.
             </p>
-            <p className="text-lg text-slate-400 font-light leading-relaxed mb-6">
+            <p className="text-lg text-gray-400 font-light leading-relaxed mb-6">
               Over the past decade, I've shipped products across SaaS and e-commerce that people actually use — and that move the revenue needle.
             </p>
             <p className="text-lg font-medium mb-3 text-blue-400">
               100+ experiments. $27M+ in revenue impact.
             </p>
-            <p className="text-base text-slate-500 font-light italic mb-20 md:mb-24">
+            <p className="text-base text-gray-500 font-light italic mb-20 md:mb-24">
               Because good product decisions come from evidence, not opinions.
             </p>
           </div>
         </div>
 
+        {/* Centered Teaser CTA */}
         <div className="w-full flex justify-center">
           <button
             onClick={() => scrollToSection('about')}
-            className="flex flex-col items-center gap-2 text-slate-500 hover:text-white transition-colors group"
+            className="flex flex-col items-center gap-2 text-gray-500 hover:text-white transition-colors group"
           >
-            <span className="text-sm md:text-base font-light">Curious to learn more? Keep scrolling.</span>
+            <span className="text-sm md:text-base font-light">
+              Curious to learn more? Keep scrolling.
+            </span>
             <ChevronDown 
               size={24} 
               className="animate-bounce"
@@ -220,28 +218,28 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* About Section - Full Three Paragraphs Restored */}
-      <section id="about" className="py-20 px-6 border-t border-slate-800">
+      {/* About + Achievements */}
+      <section id="about" className="py-20 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto lg:px-0">
           <div className="mb-16">
-            <h2 className="text-sm uppercase tracking-wider text-slate-500 mb-6">About</h2>
-            <p className="text-lg text-slate-300 font-light leading-relaxed mb-6 max-w-3xl">
+            <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-6">About</h2>
+            <p className="text-lg text-gray-300 font-light leading-relaxed mb-6 max-w-3xl">
               I build where ambiguity lives: early bets, messy funnels, unclear signals.
             </p>
-            <p className="text-lg text-slate-300 font-light leading-relaxed mb-6 max-w-3xl">
+            <p className="text-lg text-gray-300 font-light leading-relaxed mb-6 max-w-3xl">
               My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.
             </p>
-            <p className="text-lg text-slate-300 font-light leading-relaxed mb-6 max-w-3xl">
+            <p className="text-lg text-gray-300 font-light leading-relaxed mb-6 max-w-3xl">
               I care about what works, why it works, and how to scale it.
             </p>
-            <div className="text-sm text-slate-500 font-light">
+            <div className="text-sm text-gray-500 font-light">
               Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
             </div>
           </div>
 
           <div>
-            <h2 className="text-sm uppercase tracking-wider text-slate-500 mb-8">Impact</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Impact</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
               {achievements.map((item, index) => (
                 <CountUpMetric key={index} item={item} delay={index * 100} />
               ))}
@@ -251,18 +249,19 @@ export default function PMPortfolio() {
       </section>
 
       {/* Work Section */}
-      <section id="work" className="py-20 px-6 border-t border-slate-800">
+      <section id="work" className="py-20 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto lg:px-0">
-          <h2 className="text-sm uppercase tracking-wider text-slate-500 mb-12">Work</h2>
+          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Work</h2>
           <div className="grid md:grid-cols-2 gap-12">
             {caseStudies.map((study, index) => (
               <div key={index}>
-                <div className="h-8 mb-4 flex items-center">
-                   {/* Logo placeholder with company name for dark mode */}
-                  <span className="text-slate-400 font-bold tracking-tighter text-xl uppercase">{study.company}</span>
-                </div>
+                <img 
+                  src={study.logo} 
+                  alt={`${study.company} logo`}
+                  className="h-6 mb-3 object-contain object-left filter brightness-0 invert"
+                />
                 <h3 className="text-xl font-light mb-3 text-white">{study.title}</h3>
-                <p className="text-sm text-slate-400 font-light leading-relaxed mb-3">
+                <p className="text-sm text-gray-400 font-light leading-relaxed mb-3">
                   {study.description}
                 </p>
                 <div className="text-sm font-medium text-blue-400">{study.metrics}</div>
@@ -272,80 +271,104 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Conditional Product Playground + Bottom Sheet */}
-      {SHOW_PLAYGROUND && (
-        <>
-          <section className="py-20 px-6 border-t border-slate-800">
-            <div className="max-w-5xl mx-auto lg:px-0">
-              <h2 className="text-sm uppercase tracking-wider text-slate-500 mb-12">Product Playground</h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {sideProjects.map((project, index) => (
-                  <div 
-                    key={index}
-                    onClick={() => setSelectedProject(project)}
-                    className="group cursor-pointer block"
-                  >
-                    <div className="aspect-video bg-slate-800 mb-4 overflow-hidden rounded-sm border border-slate-700 group-hover:border-blue-500 transition-colors">
-                      <div className="w-full h-full flex items-center justify-center text-slate-600 italic text-xs">Project Preview</div>
-                    </div>
-                    <h3 className="text-lg font-medium mb-1 text-slate-200 group-hover:text-blue-400 transition-colors flex items-center gap-2">
-                      {project.title} <ExternalLink size={14} className="opacity-50" />
-                    </h3>
-                    <p className="text-sm text-slate-500 font-light leading-relaxed">
-                      {project.subtitle}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Modal Overlay / Bottom Sheet (Dark Mode) */}
-          {selectedProject && (
-            <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
+      {/* Product Playground */}
+      <section className="py-20 px-6 border-t border-white/10">
+        <div className="max-w-5xl mx-auto lg:px-0">
+          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Product Playground</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {sideProjects.map((project, index) => (
               <div 
-                className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
-                onClick={() => setSelectedProject(null)}
-              ></div>
-              <div className="relative w-full md:max-w-2xl bg-slate-900 rounded-t-2xl md:rounded-lg shadow-2xl p-8 md:p-12 border-t md:border border-slate-800 animate-in slide-in-from-bottom md:zoom-in duration-300 max-h-[90vh] overflow-y-auto">
-                <button 
-                  onClick={() => setSelectedProject(null)}
-                  className="absolute top-6 right-6 p-2 text-slate-500 hover:text-white transition-colors"
-                >
-                  <X size={24} />
-                </button>
-                <h2 className="text-2xl md:text-3xl font-light mb-2 text-white">{selectedProject.title}</h2>
-                <p className="text-lg text-blue-400 font-light mb-8">{selectedProject.subtitle}</p>
-                <div className="text-slate-300 font-light leading-relaxed border-t border-slate-800 pt-6">
-                  {selectedProject.fullContent}
+                key={index}
+                onClick={() => setSelectedProject(project)}
+                className="group cursor-pointer block"
+              >
+                <div className="aspect-video bg-[#1a1a1a] mb-4 overflow-hidden rounded-sm border border-white/5 group-hover:border-white/20 transition-colors">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover opacity-60 md:grayscale md:group-hover:grayscale-0 md:group-hover:opacity-100 transition-all duration-500"
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }} 
+                  />
+                  <div className="w-full h-full flex items-center justify-center bg-[#111] text-gray-600 italic text-xs">Project Preview</div>
                 </div>
+                <h3 className="text-lg font-medium mb-1 group-hover:text-blue-400 transition-colors flex items-center gap-2 text-white">
+                  {project.title} <ExternalLink size={14} className="opacity-50 md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
+                </h3>
+                <p className="text-sm text-gray-400 font-light leading-relaxed">
+                  {project.subtitle}
+                </p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Responsive Bottom Sheet / Modal Overlay - Dark Mode */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
+          <div 
+            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            onClick={() => setSelectedProject(null)}
+          ></div>
+          
+          <div className="relative w-full md:max-w-2xl bg-[#111] border-t md:border border-white/10 rounded-t-2xl md:rounded-lg shadow-2xl p-8 md:p-12 animate-in slide-in-from-bottom md:zoom-in duration-300 max-h-[90vh] overflow-y-auto">
+            <button 
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-6 right-6 p-2 text-gray-500 hover:text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
+            
+            <h2 className="text-2xl md:text-3xl font-light mb-2 text-white">{selectedProject.title}</h2>
+            <p className="text-lg text-blue-400 font-light mb-8">{selectedProject.subtitle}</p>
+            
+            <div className="text-gray-300 font-light leading-relaxed border-t border-white/10 pt-6">
+              {selectedProject.fullContent}
             </div>
-          )}
-        </>
+            
+            <div className="mt-10 mb-6 md:mb-0">
+              <button 
+                onClick={() => setSelectedProject(null)}
+                className="w-full md:w-auto px-6 py-3 bg-white/5 md:bg-transparent text-sm uppercase tracking-widest font-medium text-gray-500 hover:text-white transition-colors rounded"
+              >
+                Close Project
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6 border-t border-slate-800">
+      <section id="contact" className="py-20 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto lg:px-0">
-          <h2 className="text-sm uppercase tracking-wider text-slate-500 mb-8">Contact</h2>
+          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8">Contact</h2>
           <div className="space-y-4">
+            <a 
+              href="https://calendly.com/bennettdilly/connect" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors group py-2"
+            >
+              <span className="text-xl">📅</span>
+              <span className="font-light underline underline-offset-4 decoration-white/10 group-hover:decoration-white">calendly.com/bennettdilly/connect</span>
+            </a>
             <a 
               href="https://linkedin.com/in/bennettdilly" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group py-2"
+              className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors group py-2"
             >
-              <Linkedin size={20} />
-              <span className="font-light underline underline-offset-4 decoration-slate-800 group-hover:decoration-white">linkedin.com/in/bennettdilly</span>
+              <Linkedin size={20} className="text-gray-500 group-hover:text-white transition-colors" />
+              <span className="font-light underline underline-offset-4 decoration-white/10 group-hover:decoration-white">linkedin.com/in/bennettdilly</span>
             </a>
           </div>
         </div>
       </section>
 
-      <footer className="py-12 px-6 border-t border-slate-800">
+      {/* Footer */}
+      <footer className="py-12 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto lg:px-0">
-          <p className="text-sm text-slate-600 font-light">
+          <p className="text-sm text-gray-600 font-light">
             © 2026 Bennett Dilly
           </p>
         </div>
