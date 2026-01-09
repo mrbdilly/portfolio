@@ -5,6 +5,9 @@ export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
+  // FEATURE FLAG: Toggle this to true to launch the Playground
+  const SHOW_PLAYGROUND = false;
+
   // Add Helvetica Neue font
   React.useEffect(() => {
     document.body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
@@ -96,7 +99,7 @@ export default function PMPortfolio() {
       description: 'Led AI-powered features at JustAnswer optimizing customer interactions through 70+ experiments.',
       metrics: '$15M Net LTV increase',
       company: 'JustAnswer',
-      logo: '/images/ja-logo-dark.png' // Consider a white-version logo
+      logo: '/images/ja-logo-dark.png'
     },
     {
       title: 'Global Subscription Funnel Optimization',
@@ -137,17 +140,17 @@ export default function PMPortfolio() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
-      {/* Navigation - Dark Gradient */}
-      <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-[#111827]/90 via-[#0a0a0a]/95 to-[#1e1b4b]/90 backdrop-blur-md z-50 border-b border-white/10">
+      {/* Navigation - Light Blue/Gray/White Gradient */}
+      <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-slate-100/90 via-white/95 to-blue-50/90 backdrop-blur-md z-50 border-b border-white/10">
         <div className="max-w-5xl mx-auto px-6 lg:px-0 py-5 flex items-center justify-between">
-          <div className="text-lg font-medium text-white">Bennett Dilly</div>
+          <div className="text-lg font-medium text-slate-800">Bennett Dilly</div>
           
           <div className="hidden md:flex gap-10">
             {['About', 'Work', 'Contact'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-slate-600 hover:text-black transition-colors"
               >
                 {item}
               </button>
@@ -155,7 +158,7 @@ export default function PMPortfolio() {
           </div>
 
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-slate-800"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -163,13 +166,13 @@ export default function PMPortfolio() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#0a0a0a] border-b border-white/10">
+          <div className="md:hidden bg-white border-b border-gray-200">
             <div className="flex flex-col px-6 py-4 gap-4">
               {['About', 'Work', 'Contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="text-left text-gray-400 hover:text-white transition-colors"
+                  className="text-left text-slate-600 hover:text-black transition-colors"
                 >
                   {item}
                 </button>
@@ -271,71 +274,75 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Product Playground */}
-      <section className="py-20 px-6 border-t border-white/10">
-        <div className="max-w-5xl mx-auto lg:px-0">
-          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Product Playground</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {sideProjects.map((project, index) => (
-              <div 
-                key={index}
-                onClick={() => setSelectedProject(project)}
-                className="group cursor-pointer block"
-              >
-                <div className="aspect-video bg-[#1a1a1a] mb-4 overflow-hidden rounded-sm border border-white/5 group-hover:border-white/20 transition-colors">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover opacity-60 md:grayscale md:group-hover:grayscale-0 md:group-hover:opacity-100 transition-all duration-500"
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }} 
-                  />
-                  <div className="w-full h-full flex items-center justify-center bg-[#111] text-gray-600 italic text-xs">Project Preview</div>
-                </div>
-                <h3 className="text-lg font-medium mb-1 group-hover:text-blue-400 transition-colors flex items-center gap-2 text-white">
-                  {project.title} <ExternalLink size={14} className="opacity-50 md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
-                </h3>
-                <p className="text-sm text-gray-400 font-light leading-relaxed">
-                  {project.subtitle}
-                </p>
+      {/* Conditional Product Playground */}
+      {SHOW_PLAYGROUND && (
+        <>
+          <section className="py-20 px-6 border-t border-white/10">
+            <div className="max-w-5xl mx-auto lg:px-0">
+              <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12">Product Playground</h2>
+              <div className="grid md:grid-cols-3 gap-8">
+                {sideProjects.map((project, index) => (
+                  <div 
+                    key={index}
+                    onClick={() => setSelectedProject(project)}
+                    className="group cursor-pointer block"
+                  >
+                    <div className="aspect-video bg-[#1a1a1a] mb-4 overflow-hidden rounded-sm border border-white/5 group-hover:border-white/20 transition-colors">
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-full object-cover opacity-60 md:grayscale md:group-hover:grayscale-0 md:group-hover:opacity-100 transition-all duration-500"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }} 
+                      />
+                      <div className="w-full h-full flex items-center justify-center bg-[#111] text-gray-600 italic text-xs">Project Preview</div>
+                    </div>
+                    <h3 className="text-lg font-medium mb-1 group-hover:text-blue-400 transition-colors flex items-center gap-2 text-white">
+                      {project.title} <ExternalLink size={14} className="opacity-50 md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
+                    </h3>
+                    <p className="text-sm text-gray-400 font-light leading-relaxed">
+                      {project.subtitle}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
+          </section>
 
-      {/* Responsive Bottom Sheet / Modal Overlay - Dark Mode */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
-          <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-md"
-            onClick={() => setSelectedProject(null)}
-          ></div>
-          
-          <div className="relative w-full md:max-w-2xl bg-[#111] border-t md:border border-white/10 rounded-t-2xl md:rounded-lg shadow-2xl p-8 md:p-12 animate-in slide-in-from-bottom md:zoom-in duration-300 max-h-[90vh] overflow-y-auto">
-            <button 
-              onClick={() => setSelectedProject(null)}
-              className="absolute top-6 right-6 p-2 text-gray-500 hover:text-white transition-colors"
-            >
-              <X size={24} />
-            </button>
-            
-            <h2 className="text-2xl md:text-3xl font-light mb-2 text-white">{selectedProject.title}</h2>
-            <p className="text-lg text-blue-400 font-light mb-8">{selectedProject.subtitle}</p>
-            
-            <div className="text-gray-300 font-light leading-relaxed border-t border-white/10 pt-6">
-              {selectedProject.fullContent}
-            </div>
-            
-            <div className="mt-10 mb-6 md:mb-0">
-              <button 
+          {/* Responsive Bottom Sheet / Modal Overlay */}
+          {selectedProject && (
+            <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
+              <div 
+                className="absolute inset-0 bg-black/80 backdrop-blur-md"
                 onClick={() => setSelectedProject(null)}
-                className="w-full md:w-auto px-6 py-3 bg-white/5 md:bg-transparent text-sm uppercase tracking-widest font-medium text-gray-500 hover:text-white transition-colors rounded"
-              >
-                Close Project
-              </button>
+              ></div>
+              
+              <div className="relative w-full md:max-w-2xl bg-[#111] border-t md:border border-white/10 rounded-t-2xl md:rounded-lg shadow-2xl p-8 md:p-12 animate-in slide-in-from-bottom md:zoom-in duration-300 max-h-[90vh] overflow-y-auto">
+                <button 
+                  onClick={() => setSelectedProject(null)}
+                  className="absolute top-6 right-6 p-2 text-gray-500 hover:text-white transition-colors"
+                >
+                  <X size={24} />
+                </button>
+                
+                <h2 className="text-2xl md:text-3xl font-light mb-2 text-white">{selectedProject.title}</h2>
+                <p className="text-lg text-blue-400 font-light mb-8">{selectedProject.subtitle}</p>
+                
+                <div className="text-gray-300 font-light leading-relaxed border-t border-white/10 pt-6">
+                  {selectedProject.fullContent}
+                </div>
+                
+                <div className="mt-10 mb-6 md:mb-0">
+                  <button 
+                    onClick={() => setSelectedProject(null)}
+                    className="w-full md:w-auto px-6 py-3 bg-white/5 md:bg-transparent text-sm uppercase tracking-widest font-medium text-gray-500 hover:text-white transition-colors rounded"
+                  >
+                    Close Project
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
 
       {/* Contact Section */}
