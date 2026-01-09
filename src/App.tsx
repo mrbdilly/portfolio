@@ -10,17 +10,18 @@ export default function PMPortfolio() {
   // FEATURE FLAG: Toggle to true when Product Playground is ready
   const SHOW_PLAYGROUND = false;
 
-  // 1. Scroll-Hide Navigation Logic
+  // 1. Precision Scroll-Hide Logic (Hides as soon as scroll hits 10px)
   useEffect(() => {
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
-        // Hide nav if scrolling down, show if scrolling up
-        if (window.scrollY > lastScrollY && window.scrollY > 100) { 
+        const currentScrollY = window.scrollY;
+        // Logic: If scrolling down and past the 10px threshold, hide.
+        if (currentScrollY > lastScrollY && currentScrollY > 10) { 
           setNavVisible(false); 
         } else {
           setNavVisible(true); 
         }
-        setLastScrollY(window.scrollY);
+        setLastScrollY(currentScrollY);
       }
     };
 
@@ -28,7 +29,7 @@ export default function PMPortfolio() {
     return () => window.removeEventListener('scroll', controlNavbar);
   }, [lastScrollY]);
 
-  // 2. Global Styling (Dark Mode & Font)
+  // 2. Font and Global Dark Mode Body Style
   useEffect(() => {
     document.body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
     document.body.style.backgroundColor = '#0a0a0a';
@@ -41,7 +42,7 @@ export default function PMPortfolio() {
     setMobileMenuOpen(false);
   };
 
-  // 3. Animated Metrics Component
+  // 3. Count-up Metric Component
   const CountUpMetric = ({ item, delay }) => {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -95,7 +96,7 @@ export default function PMPortfolio() {
     );
   };
 
-  // 4. Content Data
+  // 4. Data Arrays (Restored Full Descriptions)
   const achievements = [
     { metric: '100+', label: 'Experiments', detail: 'A/B tests on onboarding & engagement' },
     { metric: '$27M+', label: 'Revenue Impact', detail: 'JustAnswer + Parallels combined' },
@@ -144,20 +145,20 @@ export default function PMPortfolio() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-blue-500/30">
       
-      {/* 5. Modernized Floating Pill Nav with High-Contrast Gradient */}
+      {/* 5. Minimalist Nav - Darkened Blue Gradient & Unbolded Text */}
       <nav className={`fixed left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50 transition-all duration-500 ease-in-out ${navVisible ? 'top-6' : '-top-24'}`}>
-        <div className="bg-gradient-to-r from-blue-400/90 via-indigo-50/95 to-white backdrop-blur-2xl border border-white/40 rounded-full px-8 py-3 shadow-[0_10px_40px_rgba(59,130,246,0.2)] flex items-center justify-between transition-all duration-500 hover:scale-[1.01]">
-          <div className="text-sm font-bold tracking-widest text-slate-900 uppercase">Bennett Dilly</div>
+        <div className="bg-gradient-to-r from-blue-800/95 via-indigo-50/95 to-white backdrop-blur-2xl border border-white/30 rounded-full px-8 py-3 shadow-2xl flex items-center justify-between">
+          <div className="text-sm font-medium tracking-[0.2em] text-slate-900 uppercase">Bennett Dilly</div>
           
           <div className="hidden md:flex items-center gap-10">
             {['About', 'Work', 'Contact'].map((item) => (
               <button 
                 key={item} 
                 onClick={() => scrollToSection(item.toLowerCase())} 
-                className="relative text-xs font-bold text-slate-700 hover:text-blue-700 transition-colors group tracking-wide uppercase"
+                className="relative text-xs font-light text-slate-800 hover:text-blue-700 transition-colors group tracking-[0.15em] uppercase"
               >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </button>
             ))}
           </div>
@@ -167,16 +168,12 @@ export default function PMPortfolio() {
           </button>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="absolute top-16 left-0 right-0 bg-gradient-to-b from-white to-blue-50 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+          <div className="absolute top-16 left-0 right-0 bg-white backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
             <div className="flex flex-col gap-6">
               {['About', 'Work', 'Contact'].map((item) => (
-                <button 
-                  key={item} 
-                  onClick={() => scrollToSection(item.toLowerCase())} 
-                  className="text-left text-base font-bold text-slate-800 hover:text-blue-600 uppercase"
-                >
+                <button key={item} onClick={() => scrollToSection(item.toLowerCase())} className="text-left text-sm font-medium text-slate-800 uppercase tracking-widest">
                   {item}
                 </button>
               ))}
@@ -189,21 +186,11 @@ export default function PMPortfolio() {
       <section className="pt-16 md:pt-20 pb-16 px-6 min-h-screen flex flex-col justify-center">
         <div className="max-w-5xl mx-auto lg:px-0 w-full">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-7xl font-light mb-6 leading-tight text-white">
-              Hi, I'm Bennett.
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 font-light mb-6">
-              I make products less broken and more profitable.
-            </p>
-            <p className="text-lg text-gray-400 font-light leading-relaxed mb-6">
-              Over the past decade, I've shipped products across SaaS and e-commerce that people actually use — and that move the revenue needle.
-            </p>
-            <p className="text-lg font-medium mb-3 text-blue-400">
-              100+ experiments. $27M+ in revenue impact.
-            </p>
-            <p className="text-base text-gray-500 font-light italic mb-20 md:mb-24">
-              Because good product decisions come from evidence, not opinions.
-            </p>
+            <h1 className="text-4xl md:text-7xl font-light mb-6 leading-tight text-white">Hi, I'm Bennett.</h1>
+            <p className="text-xl md:text-2xl text-gray-300 font-light mb-6">I make products less broken and more profitable.</p>
+            <p className="text-lg text-gray-400 font-light leading-relaxed mb-6">Over the past decade, I've shipped products across SaaS and e-commerce that people actually use — and that move the revenue needle.</p>
+            <p className="text-lg font-medium mb-3 text-blue-400">100+ experiments. $27M+ in revenue impact.</p>
+            <p className="text-base text-gray-500 font-light italic mb-20 md:mb-24">Because good product decisions come from evidence, not opinions.</p>
           </div>
         </div>
         <div className="w-full flex justify-center">
@@ -218,21 +205,12 @@ export default function PMPortfolio() {
       <section id="about" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto lg:px-0">
           <div className="mb-20">
-            <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8 font-bold">About</h2>
-            <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed mb-8 max-w-3xl">
-              I build where ambiguity lives: early bets, messy funnels, unclear signals.
-            </p>
-            <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed mb-8 max-w-3xl">
-              My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.
-            </p>
-            <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed mb-8 max-w-3xl">
-              I care about what works, why it works, and how to scale it.
-            </p>
-            <div className="text-sm text-gray-500 font-light italic tracking-wide">
-              Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy · Cross-functional Leadership
-            </div>
+            <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-8 font-medium">About</h2>
+            <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed mb-8 max-w-3xl">I build where ambiguity lives: early bets, messy funnels, unclear signals.</p>
+            <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed mb-8 max-w-3xl">My approach? Stay curious, listen to what matters, and make decisions based on evidence, not guesswork.</p>
+            <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed mb-8 max-w-3xl">I care about what works, why it works, and how to scale it.</p>
+            <div className="text-sm text-gray-500 font-light italic tracking-wide">Experimentation · Conversational AI · Funnel Optimization · Lifecycle Strategy</div>
           </div>
-          
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {achievements.map((item, index) => (
               <CountUpMetric key={index} item={item} delay={index * 150} />
@@ -244,81 +222,69 @@ export default function PMPortfolio() {
       {/* 8. Work Section */}
       <section id="work" className="py-24 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto lg:px-0">
-          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-16 font-bold">Work</h2>
+          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-16 font-medium">Work</h2>
           <div className="grid md:grid-cols-2 gap-20 text-white">
             {caseStudies.map((study, index) => (
-              <div key={index} className="group">
-                <div className="text-gray-500 font-bold tracking-tighter text-2xl mb-6 group-hover:text-white transition-colors uppercase">
-                  {study.company}
-                </div>
+              <div key={index}>
+                <div className="text-gray-500 font-bold tracking-tighter text-2xl mb-6 uppercase">{study.company}</div>
                 <h3 className="text-2xl font-light mb-4">{study.title}</h3>
-                <p className="text-gray-400 font-light leading-relaxed mb-6">
-                  {study.description}
-                </p>
-                <div className="text-sm font-bold text-blue-400 tracking-wide uppercase">
-                  {study.metrics}
-                </div>
+                <p className="text-gray-400 font-light leading-relaxed mb-6">{study.description}</p>
+                <div className="text-sm font-bold text-blue-400 tracking-wide uppercase">{study.metrics}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 9. Conditional Product Playground + Responsive Bottom Sheet */}
+      {/* 9. Product Playground - Hidden via SHOW_PLAYGROUND flag */}
       {SHOW_PLAYGROUND && (
         <>
           <section id="playground" className="py-24 px-6 border-t border-white/10">
             <div className="max-w-5xl mx-auto lg:px-0">
-              <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-16 font-bold">Product Playground</h2>
+              <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-16 font-medium">Product Playground</h2>
               <div className="grid md:grid-cols-3 gap-10">
                 {sideProjects.map((project, index) => (
-                  <div 
-                    key={index} 
-                    onClick={() => setSelectedProject(project)} 
-                    className="group cursor-pointer block"
-                  >
+                  <div key={index} onClick={() => setSelectedProject(project)} className="group cursor-pointer block">
                     <div className="aspect-video bg-slate-900 mb-6 overflow-hidden rounded-sm border border-white/5 group-hover:border-blue-500/50 transition-all duration-500">
                       <div className="w-full h-full flex items-center justify-center text-slate-700 italic text-xs">Project Preview</div>
                     </div>
                     <h3 className="text-lg font-medium mb-2 text-slate-200 group-hover:text-blue-400 transition-colors flex items-center gap-2">
                       {project.title} <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                     </h3>
-                    <p className="text-sm text-slate-500 font-light leading-relaxed">
-                      {project.subtitle}
-                    </p>
+                    <p className="text-sm text-slate-500 font-light">{project.subtitle}</p>
                   </div>
                 ))}
               </div>
             </div>
           </section>
 
-          {/* Detailed Project Overlay (Modal) */}
+          {/* Modal Overlay */}
           {selectedProject && (
             <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
               <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setSelectedProject(null)}></div>
-              <div className="relative w-full md:max-w-2xl bg-[#0a0a0a] border-t md:border border-white/10 rounded-t-3xl md:rounded-2xl shadow-2xl p-8 md:p-12 animate-in slide-in-from-bottom md:zoom-in duration-300 max-h-[90vh] overflow-y-auto">
+              <div className="relative w-full md:max-w-2xl bg-[#0a0a0a] border-t md:border border-white/10 rounded-t-3xl md:rounded-2xl p-8 md:p-12 animate-in slide-in-from-bottom md:zoom-in duration-300">
                 <button onClick={() => setSelectedProject(null)} className="absolute top-6 right-6 p-2 text-gray-500 hover:text-white transition-colors">
                   <X size={24} />
                 </button>
                 <h2 className="text-3xl font-light mb-2 text-white">{selectedProject.title}</h2>
                 <p className="text-xl text-blue-400 font-light mb-8">{selectedProject.subtitle}</p>
-                <div className="text-gray-300 font-light leading-relaxed border-t border-white/10 pt-8 text-lg">
-                  {selectedProject.fullContent}
-                </div>
-                <button onClick={() => setSelectedProject(null)} className="mt-12 w-full py-4 bg-white/5 text-gray-400 hover:text-white rounded-xl border border-white/10 transition-colors uppercase tracking-widest text-xs font-bold">
-                  Close Project
-                </button>
+                <div className="text-gray-300 font-light leading-relaxed border-t border-white/10 pt-8 text-lg">{selectedProject.fullContent}</div>
+                <button onClick={() => setSelectedProject(null)} className="mt-12 w-full py-4 bg-white/5 text-gray-400 hover:text-white rounded-xl border border-white/10 transition-colors uppercase tracking-widest text-xs font-bold">Close Project</button>
               </div>
             </div>
           )}
         </>
       )}
 
-      {/* 10. Contact Section */}
+      {/* 10. Contact Section - Restored Calendly & LinkedIn */}
       <section id="contact" className="py-32 px-6 border-t border-white/10">
         <div className="max-w-5xl mx-auto lg:px-0">
-          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12 font-bold">Contact</h2>
-          <div className="flex flex-col gap-8">
+          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-12 font-medium">Contact</h2>
+          <div className="flex flex-col gap-10">
+            <a href="https://calendly.com/bennettdilly/connect" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-gray-300 hover:text-white transition-all group py-2">
+              <span className="text-2xl text-blue-500 group-hover:scale-110 transition-transform">📅</span>
+              <span className="text-xl md:text-2xl font-light underline underline-offset-8 decoration-white/10 group-hover:decoration-blue-500">calendly.com/bennettdilly/connect</span>
+            </a>
             <a href="https://linkedin.com/in/bennettdilly" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-gray-300 hover:text-white transition-all group py-2">
               <Linkedin size={24} className="text-blue-500 group-hover:scale-110 transition-transform" />
               <span className="text-xl md:text-2xl font-light underline underline-offset-8 decoration-white/10 group-hover:decoration-blue-500">linkedin.com/in/bennettdilly</span>
@@ -327,11 +293,10 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* 11. Footer */}
+      {/* 11. Footer - Restored to original */}
       <footer className="py-16 px-6 border-t border-white/10">
-        <div className="max-w-5xl mx-auto lg:px-0 flex justify-between items-center text-gray-600 text-[10px] tracking-[0.2em] uppercase font-bold">
-          <div>© 2026 BENNETT DILLY</div>
-          <div>BUILT FOR SCALE</div>
+        <div className="max-w-5xl mx-auto lg:px-0 text-gray-600 text-[10px] tracking-[0.2em] uppercase font-medium">
+          © 2026 BENNETT DILLY
         </div>
       </footer>
     </div>
