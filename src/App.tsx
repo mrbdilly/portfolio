@@ -10,7 +10,7 @@ export default function PMPortfolio() {
 
   const SHOW_PLAYGROUND = false;
 
-  // 1. Scroll-Hide Logic (10px Trigger)
+  // 1. Precision Scroll-Hide Logic (10px Trigger)
   useEffect(() => {
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
@@ -117,12 +117,30 @@ export default function PMPortfolio() {
     }
   ];
 
+  const sideProjects = [
+    {
+      title: 'Project Alpha',
+      subtitle: 'A specialized tool for analyzing user churn patterns in SaaS.',
+      fullContent: 'This side project focused on identifying early-warning signals for churn in subscription models. I built a predictive framework that analyzes high-frequency engagement data to trigger automated recovery workflows, specifically targeting users who show a 30% drop in session frequency over a 7-day rolling window.'
+    },
+    {
+      title: 'Market Pulse AI',
+      subtitle: 'LLM-powered dashboard for real-time competitor sentiment analysis.',
+      fullContent: 'Using a combination of web-scraping and LLM categorization, Market Pulse allows product teams to see how users are reacting to competitor feature launches in real-time. It transforms qualitative social sentiment into structured data, allowing for rapid-response product positioning.'
+    },
+    {
+      title: 'OnboardFlow',
+      subtitle: 'Custom framework for testing B2B onboarding friction points.',
+      fullContent: 'OnboardFlow is a lightweight experimentation layer designed to isolate the "Aha! moment." It tracks user velocity through the initial setup and identifies specific UI elements causing drop-offs, reducing time-to-value by an average of 18% in initial beta tests.'
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-blue-500/30">
       
-      {/* 5. Minimalist Nav - No Gradient, Frost Effect */}
+      {/* 5. Minimalist Nav - Black to Blue to White Gradient */}
       <nav className={`fixed left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50 transition-all duration-500 ease-in-out ${navVisible ? 'top-6' : '-top-24'}`}>
-        <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-full px-8 py-3 shadow-2xl flex items-center justify-between">
+        <div className="bg-gradient-to-r from-black/90 via-blue-600/90 to-white backdrop-blur-2xl border border-white/20 rounded-full px-8 py-3 shadow-2xl flex items-center justify-between">
           <div className="text-sm font-medium tracking-[0.2em] text-white uppercase">Bennett Dilly</div>
           
           <div className="hidden md:flex items-center gap-10">
@@ -130,10 +148,10 @@ export default function PMPortfolio() {
               <button 
                 key={item} 
                 onClick={() => scrollToSection(item.toLowerCase())} 
-                className="relative text-xs font-light text-gray-300 hover:text-white transition-colors group tracking-[0.15em] uppercase"
+                className="relative text-xs font-light text-slate-800 hover:text-blue-900 transition-colors group tracking-[0.15em] uppercase"
               >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-blue-900 transition-all duration-300 group-hover:w-full"></span>
               </button>
             ))}
           </div>
@@ -165,7 +183,8 @@ export default function PMPortfolio() {
             <p className="text-lg text-gray-500 font-light leading-relaxed mb-10 max-w-2xl">Over the past decade, I've shipped products across SaaS and e-commerce that move the revenue needle through evidence-based decisions.</p>
             <div className="flex flex-col gap-2">
               <p className="text-lg font-medium text-blue-500">100+ experiments. $27M+ in revenue impact.</p>
-              <p className="text-sm text-gray-600 font-light italic">Good product decisions come from evidence, not opinions.</p>
+              {/* RESTORED TEASER */}
+              <p className="text-sm text-white font-light italic">Good product decisions come from evidence, not opinions.</p>
             </div>
           </div>
         </div>
@@ -188,7 +207,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* Work Section - Refactored to Modals */}
+      {/* Work Section */}
       <section id="work" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto lg:px-0">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-16 font-medium">Work</h2>
@@ -229,6 +248,24 @@ export default function PMPortfolio() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Product Playground - Hidden via SHOW_PLAYGROUND flag */}
+      {SHOW_PLAYGROUND && (
+        <section id="playground" className="py-24 px-6 border-t border-white/5">
+          <div className="max-w-5xl mx-auto lg:px-0">
+            <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-16 font-medium">Product Playground</h2>
+            <div className="grid md:grid-cols-3 gap-10">
+              {sideProjects.map((p, i) => (
+                <div key={i} className="cursor-pointer group">
+                  <div className="aspect-video bg-slate-900 mb-6 rounded-sm border border-white/5 group-hover:border-blue-500/50 transition-all duration-500"></div>
+                  <h3 className="text-lg font-medium mb-2 text-slate-200 group-hover:text-blue-400 transition-colors">{p.title}</h3>
+                  <p className="text-sm text-slate-500 font-light">{p.subtitle}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Contact Section */}
