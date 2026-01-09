@@ -1,8 +1,62 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, Linkedin, ChevronDown, ExternalLink } from 'lucide-react';
 
-// Helper for Tailwind class merging
+// Use this helper to match your provided code's style and bridge index.css variables
 const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
+
+// --- FIXED COMPONENT: Memoized to prevent re-counting on Nav hover ---
+const CountUpMetric = React.memo(({ item, delay }: { item: any, delay: number }) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          const metricStr = item.metric;
+          let targetValue = parseFloat(metricStr.replace(/[^0-9.]/g, '')) || 0;
+          const duration = 2000;
+          const steps = 60;
+          const increment = targetValue / steps;
+          let current = 0;
+
+          setTimeout(() => {
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= targetValue) {
+                setCount(targetValue);
+                clearInterval(timer);
+              } else {
+                setCount(current);
+              }
+            }, duration / steps);
+          }, delay);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (elementRef.current) observer.observe(elementRef.current);
+    return () => observer.disconnect();
+  }, [hasAnimated, item.metric, delay]);
+
+  const formatCount = (val: number) => {
+    const metricStr = item.metric;
+    if (metricStr.includes('$') && metricStr.includes('M')) return `$${val.toFixed(0)}M+`;
+    if (metricStr.includes('M')) return `${val.toFixed(0)}M+`;
+    if (metricStr.includes('%')) return `${Math.round(val)}%`;
+    return `${Math.round(val)}+`;
+  };
+
+  return (
+    <div ref={elementRef}>
+      <div className="text-2xl md:text-3xl font-light mb-1 text-blue-500">{formatCount(count)}</div>
+      <div className="text-sm font-medium mb-1 text-gray-200">{item.label}</div>
+      <div className="text-xs text-gray-500 font-light">{item.detail}</div>
+    </div>
+  );
+});
 
 export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -20,12 +74,11 @@ export default function PMPortfolio() {
     { label: "CONTACT", href: "#contact" },
   ];
 
-  // 1. Precision Scroll-Hide Logic (10px Trigger)
+  // 1. Scroll-Hide Logic (10px Trigger)
   useEffect(() => {
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
         const currentScrollY = window.scrollY;
-        // Hides nav if scrolling down and past 10px
         if (currentScrollY > lastScrollY && currentScrollY > 10) { 
           setNavVisible(false); 
         } else {
@@ -38,7 +91,7 @@ export default function PMPortfolio() {
     return () => window.removeEventListener('scroll', controlNavbar);
   }, [lastScrollY]);
 
-  // 2. Global Styling & Body Lock
+  // 2. Global Styling & Drawer Body-Lock
   useEffect(() => {
     document.body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
     document.body.style.backgroundColor = '#000000';
@@ -59,61 +112,7 @@ export default function PMPortfolio() {
     setMobileMenuOpen(false);
   };
 
-  // 3. Count-up Metric Component
-  const CountUpMetric = ({ item, delay }: { item: any, delay: number }) => {
-    const [count, setCount] = useState(0);
-    const [hasAnimated, setHasAnimated] = useState(false);
-    const elementRef = useRef(null);
-
-    useEffect(() => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && !hasAnimated) {
-            setHasAnimated(true);
-            const metricStr = item.metric;
-            let targetValue = parseFloat(metricStr.replace(/[^0-9.]/g, '')) || 0;
-            const duration = 2000;
-            const steps = 60;
-            const increment = targetValue / steps;
-            let current = 0;
-
-            setTimeout(() => {
-              const timer = setInterval(() => {
-                current += increment;
-                if (current >= targetValue) {
-                  setCount(targetValue);
-                  clearInterval(timer);
-                } else {
-                  setCount(current);
-                }
-              }, duration / steps);
-            }, delay);
-          }
-        },
-        { threshold: 0.3 }
-      );
-      if (elementRef.current) observer.observe(elementRef.current);
-      return () => observer.disconnect();
-    }, [hasAnimated, item.metric, delay]);
-
-    const formatCount = (val: number) => {
-      const metricStr = item.metric;
-      if (metricStr.includes('$') && metricStr.includes('M')) return `$${val.toFixed(0)}M+`;
-      if (metricStr.includes('M')) return `${val.toFixed(0)}M+`;
-      if (metricStr.includes('%')) return `${Math.round(val)}%`;
-      return `${Math.round(val)}+`;
-    };
-
-    return (
-      <div ref={elementRef}>
-        <div className="text-2xl md:text-3xl font-light mb-1 text-blue-500">{formatCount(count)}</div>
-        <div className="text-sm font-medium mb-1 text-gray-200">{item.label}</div>
-        <div className="text-xs text-gray-500 font-light">{item.detail}</div>
-      </div>
-    );
-  };
-
-  // 4. FULL DATA ASSETS
+  // 3. FULL DATA ASSETS (VERIFIED NO REDUCTIONS)
   const achievements = [
     { metric: '100+', label: 'Experiments', detail: 'A/B tests on onboarding & engagement' },
     { metric: '$27M+', label: 'Revenue Impact', detail: 'JustAnswer + Parallels combined' },
@@ -133,8 +132,8 @@ export default function PMPortfolio() {
       company: 'PARALLELS',
       title: 'Global Subscription Funnel Optimization',
       description: 'Owned end-to-end funnel optimization with data-driven testing framework at Parallels.',
-      metrics: '45% conversion increase, $12M+ QRR',
-      fullContent: 'Redesigned the global checkout experience for Parallels Desktop. Implemented a multi-variant testing framework that optimized pricing elasticity across European and Asian markets. Key focus on trial-to-paid conversion logic and reducing checkout abandonment via localized payment methods.'
+      metrics: '45% increase in subscription rate, $12M+ QRR',
+      fullContent: 'Redesigned the global checkout experience, implementing a multi-variant testing framework that optimized pricing elasticity across European and Asian markets. Key focus on trial-to-paid conversion logic and reducing checkout abandonment via localized payment methods.'
     }
   ];
 
@@ -159,9 +158,9 @@ export default function PMPortfolio() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-blue-500/30">
       
-      {/* 5. INTEGRATED NAV UI (YOUR NEW LOGIC) */}
+      {/* 4. INTEGRATED NAV UI (YOUR NEW LOGIC + CSS VARIABLES) */}
       <nav className={cn(
-        "fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-5xl transition-all duration-500 ease-in-out",
+        "fixed left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-3rem)] max-w-5xl transition-all duration-500 ease-in-out",
         navVisible ? "top-6" : "-top-24"
       )}>
         <div className="nav-gradient rounded-full px-2 py-2 shadow-lg shadow-blue-500/10 border border-white/10">
@@ -169,9 +168,9 @@ export default function PMPortfolio() {
             {/* Logo/Name */}
             <a
               href="#"
-              className="flex items-center gap-3 rounded-full bg-white/5 backdrop-blur-sm px-5 py-2.5 transition-all duration-300 hover:bg-white/10"
+              className="flex items-center gap-3 rounded-full bg-white/10 backdrop-blur-sm px-5 py-2.5 transition-all duration-300 hover:bg-white/15"
             >
-              <span className="font-semibold tracking-[0.2em] text-sm text-white">
+              <span className="font-semibold tracking-[0.2em] text-sm text-white uppercase">
                 BENNETT DILLY
               </span>
             </a>
@@ -184,8 +183,10 @@ export default function PMPortfolio() {
                   href={link.href}
                   onClick={(e) => scrollToSection(e, link.href)}
                   className={cn(
-                    "relative px-5 py-2.5 text-sm font-light tracking-[0.15em] transition-all duration-300",
-                    hoveredLink === link.label ? "text-white" : "text-gray-400 hover:text-white"
+                    "relative px-5 py-2.5 text-sm font-medium tracking-[0.15em] transition-all duration-300",
+                    hoveredLink === link.label
+                      ? "text-nav" 
+                      : "text-nav-muted hover:text-nav"
                   )}
                   onMouseEnter={() => setHoveredLink(link.label)}
                   onMouseLeave={() => setHoveredLink(null)}
@@ -193,7 +194,7 @@ export default function PMPortfolio() {
                   {link.label}
                   <span
                     className={cn(
-                      "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-px bg-white transition-all duration-300",
+                      "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-px bg-nav transition-all duration-300",
                       hoveredLink === link.label ? "w-6" : "w-0"
                     )}
                   />
@@ -222,7 +223,7 @@ export default function PMPortfolio() {
         )}
       </nav>
 
-      {/* 6. Hero Section */}
+      {/* 5. Hero Section with White Teaser CTA */}
       <section className="pt-16 md:pt-20 pb-16 px-6 min-h-screen flex flex-col justify-center">
         <div className="max-w-5xl mx-auto w-full">
           <div className="max-w-3xl">
@@ -236,7 +237,6 @@ export default function PMPortfolio() {
           </div>
         </div>
         
-        {/* White Teaser CTA */}
         <div className="w-full flex justify-center mt-12">
           <button onClick={(e) => scrollToSection(e, '#about')} className="flex flex-col items-center gap-2 text-white hover:text-blue-400 transition-colors group">
             <span className="text-sm md:text-base font-light tracking-wide">Curious to learn more? Keep scrolling.</span>
@@ -245,7 +245,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* 7. About Section */}
+      {/* 6. About Section */}
       <section id="about" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto lg:px-0">
           <div className="mb-20">
@@ -263,7 +263,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* 8. Work Section (Side-Peek Trigger) */}
+      {/* 7. Work Section (Drawer Trigger) */}
       <section id="work" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto lg:px-0">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-16 font-medium">Work</h2>
@@ -286,17 +286,17 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* 9. SIDE-PEEK DRAWER FOR WORK */}
-      <div className={`fixed inset-0 z-[100] transition-visibility duration-500 ${selectedWork ? 'visible' : 'invisible'}`}>
+      {/* 8. SIDE-PEEK DRAWER FOR WORK */}
+      <div className={cn("fixed inset-0 z-[110] transition-visibility duration-500", selectedWork ? "visible" : "invisible")}>
         <div 
-          className={`absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-500 ${selectedWork ? 'opacity-100' : 'opacity-0'}`}
+          className={cn("absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-500", selectedWork ? "opacity-100" : "opacity-0")}
           onClick={() => setSelectedWork(null)}
         />
-        <div className={`absolute top-0 right-0 h-full w-full md:w-[650px] bg-[#050505] border-l border-white/10 shadow-2xl transition-transform duration-500 ease-out transform ${selectedWork ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={cn("absolute top-0 right-0 h-full w-full md:w-[650px] bg-[#050505] border-l border-white/10 shadow-2xl transition-transform duration-500 ease-out transform", selectedWork ? "translate-x-0" : "translate-x-full")}>
           {selectedWork && (
             <div className="h-full flex flex-col p-8 md:p-16 overflow-y-auto">
               <button onClick={() => setSelectedWork(null)} className="flex items-center gap-2 text-gray-500 hover:text-white mb-12 transition-colors uppercase text-[10px] tracking-[0.3em] font-bold">
-                <X size={16} /> Close Case Study
+                <X size={16} /> Close
               </button>
               <div className="text-blue-500 text-xs font-bold tracking-[0.4em] mb-4 uppercase">{(selectedWork as any).company}</div>
               <h2 className="text-3xl md:text-5xl font-light mb-10 leading-tight">{(selectedWork as any).title}</h2>
@@ -311,6 +311,24 @@ export default function PMPortfolio() {
           )}
         </div>
       </div>
+
+      {/* 9. Product Playground (Hidden Logic) */}
+      {SHOW_PLAYGROUND && (
+        <section id="playground" className="py-24 px-6 border-t border-white/5">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-16 font-medium">Product Playground</h2>
+            <div className="grid md:grid-cols-3 gap-10">
+              {sideProjects.map((p, i) => (
+                <div key={i} onClick={() => setSelectedProject(p as any)} className="cursor-pointer group">
+                  <div className="aspect-video bg-white/5 mb-6 rounded-sm border border-white/5 group-hover:border-blue-500/30 transition-all"></div>
+                  <h3 className="text-lg font-medium mb-2 text-slate-200 group-hover:text-blue-500">{p.title}</h3>
+                  <p className="text-sm text-slate-500 font-light">{p.subtitle}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 10. Contact Section */}
       <section id="contact" className="py-32 px-6 border-t border-white/5">
