@@ -1,21 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, Linkedin, ChevronDown, ExternalLink } from 'lucide-react';
 
+// Helper for Tailwind class merging
+const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
+
 export default function PMPortfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedWork, setSelectedWork] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [navVisible, setNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
-  // FEATURE FLAG: Toggle to true when Product Playground is ready
   const SHOW_PLAYGROUND = false;
 
-  // 1. Precision Scroll-Hide Logic (10px Trigger to avoid overlap)
+  const navLinks = [
+    { label: "ABOUT", href: "#about" },
+    { label: "WORK", href: "#work" },
+    { label: "CONTACT", href: "#contact" },
+  ];
+
+  // 1. Precision Scroll-Hide Logic (10px Trigger)
   useEffect(() => {
     const controlNavbar = () => {
       if (typeof window !== 'undefined') {
         const currentScrollY = window.scrollY;
+        // Hides nav if scrolling down and past 10px
         if (currentScrollY > lastScrollY && currentScrollY > 10) { 
           setNavVisible(false); 
         } else {
@@ -28,7 +38,7 @@ export default function PMPortfolio() {
     return () => window.removeEventListener('scroll', controlNavbar);
   }, [lastScrollY]);
 
-  // 2. Global Styling & Drawer Body-Lock
+  // 2. Global Styling & Body Lock
   useEffect(() => {
     document.body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
     document.body.style.backgroundColor = '#000000';
@@ -41,14 +51,16 @@ export default function PMPortfolio() {
     }
   }, [selectedWork, selectedProject]);
 
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
+  const scrollToSection = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    const targetId = id.replace('#', '');
+    const element = document.getElementById(targetId);
     element?.scrollIntoView({ behavior: 'smooth' });
     setMobileMenuOpen(false);
   };
 
   // 3. Count-up Metric Component
-  const CountUpMetric = ({ item, delay }) => {
+  const CountUpMetric = ({ item, delay }: { item: any, delay: number }) => {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
     const elementRef = useRef(null);
@@ -84,7 +96,7 @@ export default function PMPortfolio() {
       return () => observer.disconnect();
     }, [hasAnimated, item.metric, delay]);
 
-    const formatCount = (val) => {
+    const formatCount = (val: number) => {
       const metricStr = item.metric;
       if (metricStr.includes('$') && metricStr.includes('M')) return `$${val.toFixed(0)}M+`;
       if (metricStr.includes('M')) return `${val.toFixed(0)}M+`;
@@ -101,7 +113,7 @@ export default function PMPortfolio() {
     );
   };
 
-  // 4. FULL DATA ASSETS (NOT REDUCED)
+  // 4. FULL DATA ASSETS
   const achievements = [
     { metric: '100+', label: 'Experiments', detail: 'A/B tests on onboarding & engagement' },
     { metric: '$27M+', label: 'Revenue Impact', detail: 'JustAnswer + Parallels combined' },
@@ -147,31 +159,70 @@ export default function PMPortfolio() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-blue-500/30">
       
-      {/* 5. Minimalist Nav - Black-Blue-White Gradient */}
-      <nav className={`fixed left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50 transition-all duration-500 ease-in-out ${navVisible ? 'top-6' : '-top-24'}`}>
-        <div className="bg-gradient-to-r from-black via-blue-600 to-white backdrop-blur-xl border border-white/20 rounded-full px-8 py-3 shadow-2xl flex items-center justify-between">
-          <div className="text-sm font-medium tracking-[0.2em] text-white uppercase">Bennett Dilly</div>
-          
-          <div className="hidden md:flex items-center gap-10">
-            {['About', 'Work', 'Contact'].map((item) => (
-              <button 
-                key={item} 
-                onClick={() => scrollToSection(item.toLowerCase())} 
-                className="relative text-xs font-light text-slate-900 hover:text-blue-800 transition-colors group tracking-[0.15em] uppercase"
-              >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-slate-900 transition-all duration-300 group-hover:w-full"></span>
-              </button>
-            ))}
-          </div>
+      {/* 5. INTEGRATED NAV UI (YOUR NEW LOGIC) */}
+      <nav className={cn(
+        "fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-5xl transition-all duration-500 ease-in-out",
+        navVisible ? "top-6" : "-top-24"
+      )}>
+        <div className="nav-gradient rounded-full px-2 py-2 shadow-lg shadow-blue-500/10 border border-white/10">
+          <div className="flex items-center justify-between">
+            {/* Logo/Name */}
+            <a
+              href="#"
+              className="flex items-center gap-3 rounded-full bg-white/5 backdrop-blur-sm px-5 py-2.5 transition-all duration-300 hover:bg-white/10"
+            >
+              <span className="font-semibold tracking-[0.2em] text-sm text-white">
+                BENNETT DILLY
+              </span>
+            </a>
 
-          <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center gap-1 pr-2">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => scrollToSection(e, link.href)}
+                  className={cn(
+                    "relative px-5 py-2.5 text-sm font-light tracking-[0.15em] transition-all duration-300",
+                    hoveredLink === link.label ? "text-white" : "text-gray-400 hover:text-white"
+                  )}
+                  onMouseEnter={() => setHoveredLink(link.label)}
+                  onMouseLeave={() => setHoveredLink(null)}
+                >
+                  {link.label}
+                  <span
+                    className={cn(
+                      "absolute bottom-1.5 left-1/2 -translate-x-1/2 h-px bg-white transition-all duration-300",
+                      hoveredLink === link.label ? "w-6" : "w-0"
+                    )}
+                  />
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile Toggle */}
+            <button className="md:hidden text-white pr-4" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown */}
+        {mobileMenuOpen && (
+          <div className="absolute top-16 left-0 right-0 bg-black/95 backdrop-blur-xl border border-white/10 rounded-3xl p-8 animate-in fade-in zoom-in-95 duration-300">
+            <div className="flex flex-col gap-6">
+              {navLinks.map((link) => (
+                <button key={link.label} onClick={(e) => scrollToSection(e, link.href)} className="text-left text-sm font-medium text-white uppercase tracking-widest">
+                  {link.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* 6. Hero Section with White Teaser CTA */}
+      {/* 6. Hero Section */}
       <section className="pt-16 md:pt-20 pb-16 px-6 min-h-screen flex flex-col justify-center">
         <div className="max-w-5xl mx-auto w-full">
           <div className="max-w-3xl">
@@ -185,8 +236,9 @@ export default function PMPortfolio() {
           </div>
         </div>
         
+        {/* White Teaser CTA */}
         <div className="w-full flex justify-center mt-12">
-          <button onClick={() => scrollToSection('about')} className="flex flex-col items-center gap-2 text-white hover:text-blue-400 transition-colors group">
+          <button onClick={(e) => scrollToSection(e, '#about')} className="flex flex-col items-center gap-2 text-white hover:text-blue-400 transition-colors group">
             <span className="text-sm md:text-base font-light tracking-wide">Curious to learn more? Keep scrolling.</span>
             <ChevronDown size={24} className="animate-bounce" />
           </button>
@@ -211,7 +263,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* 8. Work Section - Drawer Trigger */}
+      {/* 8. Work Section (Side-Peek Trigger) */}
       <section id="work" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto lg:px-0">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-16 font-medium">Work</h2>
@@ -219,14 +271,14 @@ export default function PMPortfolio() {
             {caseStudies.map((study, index) => (
               <div 
                 key={index} 
-                onClick={() => setSelectedWork(study)}
+                onClick={() => setSelectedWork(study as any)}
                 className="group cursor-pointer border-l border-white/5 pl-8 hover:border-blue-500 transition-all duration-500"
               >
                 <div className="text-gray-600 font-bold tracking-tighter text-2xl mb-6 uppercase group-hover:text-white transition-colors">{study.company}</div>
                 <h3 className="text-2xl font-light mb-4 text-gray-200 group-hover:text-blue-500 transition-colors">{study.title}</h3>
                 <p className="text-gray-500 font-light leading-relaxed mb-6">{study.description}</p>
                 <div className="text-xs font-bold text-blue-500 tracking-[0.2em] uppercase flex items-center gap-2">
-                  EXPLORE CASE STUDY <ExternalLink size={12} />
+                  LEARN MORE <ExternalLink size={12} />
                 </div>
               </div>
             ))}
@@ -246,39 +298,21 @@ export default function PMPortfolio() {
               <button onClick={() => setSelectedWork(null)} className="flex items-center gap-2 text-gray-500 hover:text-white mb-12 transition-colors uppercase text-[10px] tracking-[0.3em] font-bold">
                 <X size={16} /> Close Case Study
               </button>
-              <div className="text-blue-500 text-xs font-bold tracking-[0.4em] mb-4 uppercase">{selectedWork.company}</div>
-              <h2 className="text-3xl md:text-5xl font-light mb-10 leading-tight">{selectedWork.title}</h2>
+              <div className="text-blue-500 text-xs font-bold tracking-[0.4em] mb-4 uppercase">{(selectedWork as any).company}</div>
+              <h2 className="text-3xl md:text-5xl font-light mb-10 leading-tight">{(selectedWork as any).title}</h2>
               <div className="space-y-10 text-gray-400 font-light leading-relaxed text-lg">
                 <div className="p-8 bg-blue-500/5 border border-blue-500/20 rounded-xl">
                   <div className="text-xs text-blue-500 font-bold uppercase tracking-widest mb-2">Key Impact</div>
-                  <div className="text-2xl text-white font-light">{selectedWork.metrics}</div>
+                  <div className="text-2xl text-white font-light">{(selectedWork as any).metrics}</div>
                 </div>
-                <p className="whitespace-pre-line">{selectedWork.fullContent}</p>
+                <p className="whitespace-pre-line">{(selectedWork as any).fullContent}</p>
               </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* 10. Product Playground (Hidden Logic) */}
-      {SHOW_PLAYGROUND && (
-        <section id="playground" className="py-24 px-6 border-t border-white/5">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-16 font-medium">Product Playground</h2>
-            <div className="grid md:grid-cols-3 gap-10">
-              {sideProjects.map((p, i) => (
-                <div key={i} onClick={() => setSelectedProject(p)} className="cursor-pointer group">
-                  <div className="aspect-video bg-white/5 mb-6 rounded-sm border border-white/5 group-hover:border-blue-500/30 transition-all"></div>
-                  <h3 className="text-lg font-medium mb-2 text-slate-200 group-hover:text-blue-500">{p.title}</h3>
-                  <p className="text-sm text-slate-500 font-light">{p.subtitle}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 11. Contact Section */}
+      {/* 10. Contact Section */}
       <section id="contact" className="py-32 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-12 font-medium">Contact</h2>
@@ -295,7 +329,7 @@ export default function PMPortfolio() {
         </div>
       </section>
 
-      {/* 12. Footer */}
+      {/* 11. Footer */}
       <footer className="py-16 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto text-gray-700 text-[10px] tracking-[0.4em] uppercase font-medium">
           © 2026 BENNETT DILLY
