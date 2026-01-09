@@ -140,17 +140,17 @@ export default function PMPortfolio() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
-      {/* Navigation - Light Blue/Gray/White Gradient */}
-      <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-slate-100/90 via-white/95 to-blue-50/90 backdrop-blur-md z-50 border-b border-white/10">
+      {/* Navigation - High-Visibility Light Gradient */}
+      <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-100/95 via-slate-50/95 to-white backdrop-blur-lg z-50 border-b border-white/20 shadow-lg">
         <div className="max-w-5xl mx-auto px-6 lg:px-0 py-5 flex items-center justify-between">
-          <div className="text-lg font-medium text-slate-800">Bennett Dilly</div>
+          <div className="text-lg font-medium text-slate-900">Bennett Dilly</div>
           
           <div className="hidden md:flex gap-10">
             {['About', 'Work', 'Contact'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className="text-slate-600 hover:text-black transition-colors"
+                className="text-slate-600 hover:text-blue-600 font-medium transition-colors"
               >
                 {item}
               </button>
