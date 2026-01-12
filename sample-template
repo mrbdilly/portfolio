@@ -1,0 +1,139 @@
+import React from 'react';
+
+const ProductAnalysisPage = ({ company, product, calendlyLink, opportunities = [], deepDive, tldr, observations, fit }) => {
+  return (
+    <div className="max-w-4xl mx-auto px-6 py-16 font-sans text-gray-900">
+      
+      {/* HERO */}
+      <section className="mb-16">
+        <h1 className="text-4xl font-bold mb-4">
+          I analyzed <span className="font-semibold">{company}</span>’s <span className="font-semibold">{product}</span>. Here’s what I’d focus on first.
+        </h1>
+        <p className="text-gray-600 mb-4">
+          This is a high-level product analysis showing how I’d approach my first few weeks as a Senior PM on your team.
+        </p>
+        <a 
+          href={calendlyLink} 
+          className="inline-block bg-blue-600 text-white px-5 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+        >
+          Walk through this with me (15 min)
+        </a>
+        <p className="text-gray-500 mt-2 text-sm">
+          This intentionally focuses on judgment and prioritization—not implementation details.
+        </p>
+      </section>
+
+      {/* TL;DR */}
+      {tldr && (
+        <section className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-16">
+          <h2 className="text-2xl font-semibold mb-4">TL;DR</h2>
+          <p><strong>Biggest opportunity:</strong> {tldr.biggestOpportunity}</p>
+          <p><strong>Why it matters:</strong> {tldr.whyItMatters}</p>
+          <p><strong>What I’d validate first:</strong> {tldr.whatToValidate}</p>
+          <p><strong>If I were on the team:</strong> {tldr.ifOnTeam}</p>
+        </section>
+      )}
+
+      {/* POV */}
+      {observations && observations.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-semibold mb-4">My POV on the Product</h2>
+          <p className="mb-2">Most people would describe this product as <strong>{observations.productAs}</strong>. I think it’s actually solving <strong>{observations.actualProblem}</strong>.</p>
+          <p className="mb-4">This distinction matters because it changes how you prioritize, what success looks like, and where product investment should go.</p>
+          <ul className="list-disc list-inside text-gray-600">
+            {observations.keyObservations.map((obs, idx) => (
+              <li key={idx}>{obs}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Opportunities */}
+      {opportunities.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-semibold mb-4">Opportunity Map</h2>
+          <table className="w-full table-auto border-collapse">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">Opportunity</th>
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">Why it matters</th>
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">Risk</th>
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">Effort</th>
+                <th className="border px-4 py-2 text-left text-sm text-gray-600">Impact</th>
+              </tr>
+            </thead>
+            <tbody>
+              {opportunities.map((opp, idx) => (
+                <tr key={idx} className="hover:bg-gray-50">
+                  <td className="border px-4 py-2">{opp.name}</td>
+                  <td className="border px-4 py-2">{opp.why}</td>
+                  <td className="border px-4 py-2">{opp.risk}</td>
+                  <td className="border px-4 py-2">{opp.effort}</td>
+                  <td className="border px-4 py-2">{opp.impact}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
+
+      {/* Deep Dive */}
+      {deepDive && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-semibold mb-4">Deep Dive: Top Opportunity</h2>
+          <div className="border-l-4 border-gray-300 pl-4">
+            <h3 className="text-xl font-semibold mb-2">What I observed</h3>
+            <p className="mb-2">{deepDive.observed}</p>
+
+            <h3 className="text-xl font-semibold mb-2">Why this matters</h3>
+            <p className="mb-2">{deepDive.why}</p>
+
+            <h3 className="text-xl font-semibold mb-2">Hypothesis</h3>
+            <p className="mb-2">{deepDive.hypothesis}</p>
+
+            <h3 className="text-xl font-semibold mb-2">What I’d validate first</h3>
+            <p className="mb-2">{deepDive.whatToValidate}</p>
+
+            <h3 className="text-xl font-semibold mb-2">What success would look like</h3>
+            <p className="mb-2">{deepDive.success}</p>
+
+            <h3 className="text-xl font-semibold mb-2">Tradeoffs & risks</h3>
+            <p>{deepDive.tradeoffs}</p>
+          </div>
+        </section>
+      )}
+
+      {/* 30-60-90 */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-semibold mb-4">How I’d Approach the First 90 Days</h2>
+        <p><strong>First 30 days:</strong> Learn, validate assumptions, understand constraints.</p>
+        <p><strong>Days 31–60:</strong> Run focused experiments, double down on signal.</p>
+        <p><strong>Days 61–90:</strong> Ship, measure, iterate, and scale what works.</p>
+      </section>
+
+      {/* Fit */}
+      {fit && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-semibold mb-4">Why I’m Excited About This Problem</h2>
+          <p className="text-gray-700">{fit}</p>
+        </section>
+      )}
+
+      {/* CTA Footer */}
+      <section className="bg-gray-50 p-8 rounded-lg text-center">
+        <p className="mb-4">
+          If this way of thinking is useful, I’d be happy to walk through the full reasoning, tradeoffs, and what I’d explore next.
+        </p>
+        <a 
+          href={calendlyLink} 
+          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+        >
+          Book a 15-min walkthrough
+        </a>
+      </section>
+
+    </div>
+  );
+};
+
+export default ProductAnalysisPage;
