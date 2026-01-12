@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Product Analysis</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const ProductAnalysisPage = ({ company, product, calendlyLink, opportunities = [], deepDive, tldr, observations, fit }) => {
+      return (
+        <div className="max-w-4xl mx-auto px-6 py-16 font-sans text-gray-900">
+          
+          {/* HERO */}
+          <section className="mb-16">
+            <h1 className="text-4xl font-bold mb-4">
+              I analyzed <span className="font-semibold">{company}</span>'s <span className="font-semibold">{product}</span>. Here's what I'd focus on first.
+            </h1>
+            <p className="text-gray-600 mb-4">
+              This is a high-level product analysis showing how I'd approach my first few weeks as a Senior PM on your team.
+            </p>
+            <a 
+              href={calendlyLink} 
+              className="inline-block bg-blue-600 text-white px-5 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+              Walk through this with me (15 min)
+            </a>
+            <p className="text-gray-500 mt-2 text-sm">
+              This intentionally focuses on judgment and prioritization—not implementation details.
+            </p>
+          </section>
+
+          {/* TL;DR */}
+          {tldr && (
+            <section className="mb-16 bg-gray-50 p-6 rounded-lg border-l-4 border-blue-600">
+              <h2 className="text-2xl font-bold mb-3">TL;DR</h2>
+              <p className="text-gray-700 leading-relaxed">{tldr}</p>
+            </section>
+          )}
+
+          {/* OPPORTUNITIES */}
+          {opportunities.length > 0 && (
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold mb-6">Top opportunities I'd explore</h2>
+              <div className="space-y-6">
+                {opportunities.map((opp, idx) => (
+                  <div key={idx} className="border-l-4 border-gray-300 pl-4">
+                    <h3 className="text-xl font-semibold mb-2">{opp.title}</h3>
+                    <p className="text-gray-700 leading-relaxed">{opp.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* OBSERVATIONS */}
+          {observations && (
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold mb-4">What I noticed</h2>
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">{observations}</p>
+            </section>
+          )}
+
+          {/* DEEP DIVE */}
+          {deepDive && (
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold mb-4">Deep dive</h2>
+              <div className="text-gray-700 leading-relaxed whitespace-pre-line">{deepDive}</div>
+            </section>
+          )}
+
+          {/* FIT */}
+          {fit && (
+            <section className="mb-16 bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold mb-4">Why I'd be a good fit</h2>
+              <p className="text-gray-700 leading-relaxed">{fit}</p>
+            </section>
+          )}
+
+          {/* CTA */}
+          <section className="text-center py-8 border-t border-gray-200">
+            <p className="text-gray-600 mb-4">Want to discuss these ideas?</p>
+            <a 
+              href={calendlyLink} 
+              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+              Schedule a conversation
+            </a>
+          </section>
+        </div>
+      );
+    };
+
+    // CUSTOMIZE YOUR DATA HERE
+    const pageData = {
+      company: "Acme Corp",
+      product: "Dashboard Pro",
+      calendlyLink: "https://calendly.com/yourname/15min",
+      tldr: "Dashboard Pro has strong foundations but could dramatically improve user retention by simplifying onboarding and adding collaborative features. I'd prioritize reducing time-to-first-value and building sharing capabilities.",
+      opportunities: [
+        {
+          title: "Streamline onboarding to reduce drop-off",
+          description: "First-time users face a steep learning curve. I'd focus on progressive disclosure—show power features gradually rather than all at once. Quick wins: interactive tutorial, better defaults, and template library."
+        },
+        {
+          title: "Add collaborative features to increase stickiness",
+          description: "Users work in silos right now. Adding real-time collaboration, comments, and shared workspaces would create network effects and make the product harder to leave."
+        },
+        {
+          title: "Improve data export flexibility",
+          description: "Power users are frustrated by limited export options. Better API access and custom report builders would reduce churn among your most valuable customers."
+        }
+      ],
+      observations: "The product is technically solid but feels designed for experts. New users struggle to understand where to start. The UI is feature-rich but overwhelming—there's an opportunity to add progressive complexity.",
+      deepDive: "After spending time with Dashboard Pro, I see three core tensions:\n\n1. Power vs. simplicity: You've built deep functionality, but it's hidden behind complex menus. New users don't know it exists.\n\n2. Individual vs. team workflows: The product assumes solo work, but most customers work in teams. Adding collaboration would unlock viral growth.\n\n3. Flexibility vs. guidance: You offer tons of customization, but most users just want good defaults and templates to start from.",
+      fit: "I've spent the last 5 years building analytics products for technical and non-technical users. I'm especially strong at simplifying complex tools without dumbing them down—making power accessible. I love the problem space you're in and would be excited to help Dashboard Pro reach its next stage of growth."
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ProductAnalysisPage {...pageData} />);
+  </script>
+</body>
+</html>
