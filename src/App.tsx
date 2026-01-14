@@ -271,7 +271,7 @@ export default function PMPortfolio() {
         <div className="max-w-5xl mx-auto">
           <h2 className="text-xs uppercase tracking-[0.3em] text-gray-600 mb-4 font-medium">About</h2>
           <p className="text-xl md:text-2xl text-gray-400 font-light mb-16 max-w-3xl">
-           I help companies design and ship products that solve real problems, using user research and experimentation to drive growth.<br></br><br></br> My work builds AI-powered features that scale, creates experiences that delight users, streamline workflows, and drive meaningful business outcomes.
+           I help companies design and ship products that solve real problems, using user research and experimentation to drive growth.<br></br><br></br> From AI-driven tools to e-commerce flows, I build high-quality features that bridge the gap between technical capability and what people actually enjoy using.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {achievements.map((item, index) => (
